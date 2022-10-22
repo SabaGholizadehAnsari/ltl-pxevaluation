@@ -155,8 +155,7 @@ trace1.enrichTrace("joy");
 
   ```Java
   LTL<XState> f5 = eventually(S ->
-        A1.coveredPortion(S.history("joy")) >= 0.5) ;
-
+        A1.coveredPortion(S.history("joy", v-> v>=0.3)) >= 0.5) ;
   ```
 
   * Performing the queries on a single XStateTrace. This returns `SATVerdict.SAT` is the queried property is satisfied by the trace, and else `SATVerdict.UNSAT`.
