@@ -30,7 +30,7 @@ A visit at location p covers a voxel vx if p is inside vx. More precisely, if (x
 
     x0≤p.x<x1 ∧ y0≤p.y<y1 ∧ z0≤p.z<z
 
-Now, given a finite set S of locations, representing sampled locations of our agent, its coverage over A can be defined as the set C = { vx | vx ∈ V(A) ∧ (∃ p: p∈S : p covers vx)}. In terms of percentage, the coverage is then:
+Now, given a finite set S of locations, representing sampled locations of our agent, its coverage over A can be defined as the set C = { vx | vx ∈ V(A) ∧ (∃ p: p∈S : p∈A ∧ p covers vx)}. In terms of percentage, the coverage is then:
 
    100% * |C| / |V(A)|
 
