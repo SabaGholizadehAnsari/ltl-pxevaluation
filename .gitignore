@@ -1,8 +1,11 @@
-**/.DS_Store
-/data/
-/Pairs/
+/bin/
 /target/
+/.settings/
+/.idea/
+/mylog*.txt
 .project
 .classpath
-.settings/
-.project
+.idea/
+*.iml
+**/.DS_Store
+**/__pycache__

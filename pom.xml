@@ -4,12 +4,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>eu.iv4xr.framework</groupId>
-  <artifactId>ecoverage</artifactId>
-  <version>1.0</version>
+  <groupId>com.github.iv4xr-project</groupId>
+  <artifactId>ltl-pxevaluation</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
-  <name>ecoverage</name>
-  <url>https://github.com/iv4xr-project/aplib</url>
+  <name>ltl-pxevaluation</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,12 +16,13 @@
     <maven.compiler.source>1.11</maven.compiler.source>
     <maven.compiler.target>1.11</maven.compiler.target>
   </properties>
-<repositories>
+  <repositories>
 		<repository>
 		    <id>jitpack.io</id>
 		    <url>https://jitpack.io</url>
 		</repository>
-	</repositories>
+  </repositories>
+  
   <dependencies>
 
     <!-- dependencies on JUnit-5 for unit testing -->
@@ -32,22 +32,21 @@
       <version>5.6.0</version>
       <scope>test</scope>
     </dependency>
-          <dependency>
-            <groupId>com.github.iv4xr-project</groupId>
-            <artifactId>jocc</artifactId>
-            <version>1.1.0</version>
-        </dependency> 
-        <dependency>
+    <dependency>
+      <groupId>com.github.iv4xr-project</groupId>
+      <artifactId>jocc</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
 	    <groupId>com.github.iv4xr-project</groupId>
 	    <artifactId>aplib</artifactId>
-	    <version>1.5.1</version>
-	</dependency>
-<dependency>
-    <groupId>info.debatty</groupId>
-    <artifactId>java-string-similarity</artifactId>
-    <version>0.10</version>
-</dependency>
-	
+	    <version>1.5.2</version>
+	  </dependency>
+    <dependency>
+      <groupId>info.debatty</groupId>
+      <artifactId>java-string-similarity</artifactId>
+      <version>0.10</version>
+    </dependency>
   </dependencies>
 
   <build>
