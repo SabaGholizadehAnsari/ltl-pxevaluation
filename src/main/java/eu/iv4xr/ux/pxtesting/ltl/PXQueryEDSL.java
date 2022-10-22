@@ -1,6 +1,7 @@
 package eu.iv4xr.ux.pxtesting.ltl;
 
 import eu.iv4xr.framework.extensions.ltl.LTL;
+import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
 import eu.iv4xr.ux.pxtestingPipeline.LRState;
 
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
@@ -124,6 +125,19 @@ public class PXQueryEDSL {
 			return ltl ;
 		else 
 			return eventually(ltl) ;
+	}
+	
+	public static Now<XState> H() {
+		return now((XState S) -> S.dHope() != null && S.dHope()>0) ;
+	}
+	
+	public static Not<XState> nH() {
+		return ltlNot(H()) ;
+	}
+	
+	// test
+	public static void main(String[] args) {
+		LTL<XState> bla = sequence(H(),nH()) ;
 	}
 
 }
