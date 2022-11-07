@@ -24,39 +24,40 @@ public class PXQueryEDSL {
 	/**
 	 * p until q, in at most k-steps.
 	 */
-	static <State> LTL<State> until_atMost(
+	public static <State> LTL<State> until_atMost(
 			LTL<State> phi, 
 			LTL<State> psi,
 			int bound) {
 		if (bound <= 0) return psi ;
 		LTL<State> g = until_atMost(phi,psi,bound-1);
-		return psi.ltlOr(phi.ltlAnd(next(g))) ;
+		return ltlOr(psi,ltlAnd(phi,next(g))) ;
 	}
 	
 	/**
 	 * p until q, in at least k-steps.
 	 */
-	static <State> LTL<State> until_atLeast(
+	public static <State> LTL<State> until_atLeast(
 			LTL<State> phi, 
 			LTL<State> psi,
 			int bound) {
 		if (bound <= 0) return phi.until(psi) ;
-		LTL<State> g = until_atMost(phi,psi,bound-1);
-		return phi.ltlAnd(next(g)) ;
+		LTL<State> g = until_atLeast(phi,psi,bound-1);
+		return ltlAnd(phi,ltlNot(psi),next(g)) ;
 	}
 	
 	/**
 	 * p until q, in at least k-steps, and at most n-steps.
 	 */
-	static <State> LTL<State> until_within(
+	public static <State> LTL<State> until_within(
 			LTL<State> phi, 
 			LTL<State> psi,
 			int lowerbound,
 			int upperbound) {
 		if (lowerbound > upperbound)
 			throw new IllegalArgumentException() ;
-		int delta = upperbound - lowerbound ;
-		LTL<State> g = until_atLeast(phi,until_atMost(phi,psi,delta),lowerbound) ;
+		//int delta = upperbound - lowerbound ;
+		//LTL<State> g = until_atLeast(phi,until_atMost(phi,psi,delta),lowerbound) ;
+		LTL<State> g = ltlAnd( until_atLeast(phi,psi,lowerbound), until_atMost(phi,psi,upperbound)) ;
 		return g ;
 	}
 	
@@ -77,14 +78,14 @@ public class PXQueryEDSL {
 		return removeNotNotWorker(inner.phi) ;
 	}
 	
-	static <State> LTL<State> sequence(LTL<State> ... phis) {
+	public static <State> LTL<State> sequence(LTL<State> ... phis) {
 		List<LTL<State>> phis_ = new LinkedList<>() ;
 		for (int k=0; k<phis.length; k++) {
 			phis_.add(phis[k]) ;
 		}
 		return sequence(phis_) ;
 	}
-	static <State> LTL<State> sequence(List<LTL<State>> phis) {
+	public static <State> LTL<State> sequence(List<LTL<State>> phis) {
 		if (phis.size() == 0) 
 			throw new IllegalArgumentException() ;
 		
@@ -112,10 +113,10 @@ public class PXQueryEDSL {
     				// we need to look at the next atom:
 		    		LTL<State> g = phis.get(n+1) ;
 		    		if (g instanceof Not) {
-		    			ltl = f.ltlAnd(next(g)) ;
+		    			ltl = ltlAnd(f,next(g)) ;
 		    		}
 		    		else {
-		    			ltl = f.ltlAnd(next(eventually(ltl))) ;
+		    			ltl = ltlAnd(f,next(eventually(ltl))) ;
 		    		}	
 		    	}
 		    }	
@@ -127,14 +128,48 @@ public class PXQueryEDSL {
 			return eventually(ltl) ;
 	}
 	
-	public static Now<XState> H() {
+	public static LTL<XState> H() {
 		return now((XState S) -> S.dHope() != null && S.dHope()>0) ;
 	}
 	
-	public static Not<XState> nH() {
+	public static LTL<XState> F() {
+		return now((XState S) -> S.dFear() != null && S.dFear()>0) ;
+	}
+	
+	public static LTL<XState> J() {
+		return now((XState S) -> S.dJoy() != null && S.dJoy()>0) ;
+	}
+	
+	public static LTL<XState> D() {
+		return now((XState S) -> S.dDistress() != null && S.dDistress()>0) ;
+	}
+	public static LTL<XState> S() {
+		return now((XState S) -> S.dSatisfaction() != null && S.dSatisfaction()>0) ;
+	}
+	public static LTL<XState> P() {
+		return now((XState S) -> S.disappointment() != null && S.disappointment()>0) ;
+	}
+	
+	public static LTL<XState> nH() {
 		return ltlNot(H()) ;
 	}
 	
+	public static LTL<XState> nF() {
+		return ltlNot(F()) ;
+	}
+	public static LTL<XState> nJ() {
+		return ltlNot(J()) ;
+	}
+	public static LTL<XState> nD() {
+		return ltlNot(D()) ;
+	}
+	public static LTL<XState> nS() {
+		return ltlNot(S()) ;
+	}
+	public static LTL<XState> nP() {
+		return ltlNot(P()) ;
+	}
+
 	// test
 	public static void main(String[] args) {
 		LTL<XState> bla = sequence(H(),nH()) ;

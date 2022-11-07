@@ -1,14 +1,30 @@
 package eu.iv4xr.ux.pxtesting.ltl.offline;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.junit.jupiter.api.Test;
+import  java.nio.file.*;
+import static org.junit.jupiter.api.Assertions.*;
+import eu.iv4xr.framework.extensions.ltl.BoundedLTL;
+import eu.iv4xr.framework.extensions.ltl.BoundedLTL.*;
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
 import eu.iv4xr.ux.pxtesting.ltl.Area ;
+import eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL;
+import eu.iv4xr.ux.pxtestingPipeline.EmotionCoverage;
+import eu.iv4xr.ux.pxtestingPipeline.LRState;
+import nl.uu.cs.aplib.utils.CSVUtility;
+import eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL.*;
 import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
 
 import eu.iv4xr.framework.spatial.Vec3;
@@ -87,7 +103,7 @@ public class Test_XStateTrace {
 		XStateTrace.posyName = "z" ;
 		XStateTrace.poszName = "y" ;
 		XStateTrace trace = XStateTrace.readFromCSV(file) ;
-    	trace.enrichTrace("satisfaction");
+    	trace.enrichTrace("satisfaction", "Hope");
 		
 		LTL<XState> f1 = always(S -> S.distress() == 0) ;
 		LTL<XState> f2 = eventually(S -> S.satisfaction() > 0) ;
@@ -96,14 +112,25 @@ public class Test_XStateTrace {
 		
 		Area A1 = rect(new Vec3(45,0,15), new Vec3(50,0,20)) ;
 		
-		LTL<XState> f5 = eventually(S ->  A1.covered(S.history("satisfaction")).size() > 0) ;
-
+		LTL<XState> f5 = eventually(S ->  A1.covered(S.history("satisfaction")).size() > 0) ;  //Occur in A1 at least once
+		LTL<XState> f6 = eventually(S ->  A1.covered(S.history("joy",v -> v >= 10)).size() > 0.9) ; //Emotion more than the threshold , covered 90% of A1 area
+		LTL<XState> f7 = eventually(S ->  S.satisfaction()>0 && A1.contains(S.pos)) ;  // s position is in A1 and the condition occur in A1 at least once
+	
+		LTL<XState> f8 = eventually(S ->
+	      A1.coveredPortion(S.history("joy", v-> v>=0.3))>= 0.5) ;
+		LTL<XState> f9 = eventually(S ->
+	      A1.coveredPortion(S.history("joy", v-> v>=0.3)) >= 0.5) ;
+		
 		assertEquals(SATVerdict.SAT, trace.satisfy(f1))  ;
 		assertEquals(SATVerdict.SAT, trace.satisfy(f2))  ;
 		assertEquals(SATVerdict.SAT, trace.satisfy(f3))  ;
 		assertEquals(SATVerdict.UNSAT, trace.satisfy(f4))  ;
 		assertEquals(SATVerdict.SAT, trace.satisfy(f5))  ;
+		
+		//assertEquals(SATVerdict.UNSAT, trace.satisfy(f8))  ;
+
 	}
 	
 
 }
+	

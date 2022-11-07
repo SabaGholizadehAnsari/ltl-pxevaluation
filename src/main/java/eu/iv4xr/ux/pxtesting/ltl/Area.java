@@ -215,7 +215,7 @@ public abstract class Area {
 		
 		public CompositeArea(AreaCombinator op, Area A1, Area A2) {
 			this.combinator = op ;
-			this.A1 = A2 ;
+			this.A1 = A1 ;
 			this.A2 = A2 ;
 			for (var vx : A1.voxels) {
 				this.voxels.add(vx) ;

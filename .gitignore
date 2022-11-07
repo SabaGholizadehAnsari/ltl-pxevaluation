@@ -9,3 +9,7 @@
 *.iml
 **/.DS_Store
 **/__pycache__
+/data/
+*/CSV
+/Pairs/
+
