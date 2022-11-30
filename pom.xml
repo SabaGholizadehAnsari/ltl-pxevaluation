@@ -22,7 +22,7 @@
 		    <url>https://jitpack.io</url>
 		</repository>
   </repositories>
-  
+
   <dependencies>
 
     <!-- dependencies on JUnit-5 for unit testing -->
@@ -40,7 +40,7 @@
     <dependency>
 	    <groupId>com.github.iv4xr-project</groupId>
 	    <artifactId>aplib</artifactId>
-	    <version>1.5.2</version>
+	    <version>1.5.3b</version>
 	  </dependency>
     <dependency>
       <groupId>info.debatty</groupId>
