@@ -2,22 +2,21 @@ OCC Implemenrtation
 
 Copyright notice:
 
-Copyright (c) 2019, Utrecht University
+Copyright (c) 2022, Utrecht University
 All rights reserved.
 
 License notice:
 
-This file is part of jocc.
+This file is part of ltl-pxevaluation.
 
-jocc is free software: you can redistribute it and/or modify it
+ltl-pxevaluation is free software: you can redistribute it and/or modify it
 under the terms of the Lesser GNU General Public License (LGPL) as
 published by the Free Software Foundation, version 3 of the License.
 
-aplib is distributed in the hope that it will be useful,
+ltl-pxevaluation is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with aplib.  If not, see <https://www.gnu.org/licenses/>.
-
+along with ltl-pxevaluation.  If not, see <https://www.gnu.org/licenses/>.
