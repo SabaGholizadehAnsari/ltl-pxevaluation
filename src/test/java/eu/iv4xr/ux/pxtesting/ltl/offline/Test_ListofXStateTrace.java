@@ -21,16 +21,16 @@ import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
 import eu.iv4xr.ux.pxtesting.ltl.Area ;
 import eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL;
-import eu.iv4xr.ux.pxtestingPipeline.EmotionCoverage;
-import eu.iv4xr.ux.pxtestingPipeline.LRState;
-import nl.uu.cs.aplib.utils.CSVUtility;
 import static eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL.*;
 import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
 
 import eu.iv4xr.framework.spatial.Vec3;
 import org.junit.jupiter.api.BeforeAll;
 
-
+/* Examples of test requirements can be written for PX testing using the given trace files are provided here.
+ * F=fear, H=hope, D=distress, P=disappointment, J=joy, S=satisfaction
+ * 
+ */
 public class Test_ListofXStateTrace {
 	
 	
@@ -49,6 +49,7 @@ public class Test_ListofXStateTrace {
 	static Area room8;
 
 	
+	//loading all trace files. 
 @BeforeAll
 public static void loadtraces() throws IOException {
 
@@ -75,10 +76,12 @@ public static void loadtraces() throws IOException {
 
 }
 
+//test with simpler commands
+// Is there a case that the agent feels fear in room1 and hope in room2.
+
 @Test
 public void test_roomsfortraces() throws IOException {
 	
-	//test with simpler commands
 	LTL<XState> g1 = PXQueryEDSL.sequence(
 	       ltlAnd(in(room1),PXQueryEDSL.F()),
 	       ltlAnd(in(room2),PXQueryEDSL.H())
@@ -87,6 +90,8 @@ public void test_roomsfortraces() throws IOException {
 	assertEquals(true, XStateTrace.satisfy(g1, list_trace))  ;
 
 }
+
+//Check hope and fear in a specific corridor.
 
 	@Test
 	public void test_greycorridortraces() throws IOException {
@@ -106,6 +111,7 @@ public void test_roomsfortraces() throws IOException {
 
 	}
 	
+	// check FDDnD emotion pattern in a corridor
 	@Test
 	public void test_bluecorridortraces() throws IOException {
 		
@@ -134,6 +140,8 @@ public void test_roomsfortraces() throws IOException {
 
 	}
 	
+	//the agent starts in Room1, so this test checks whether the agent feels any hope.
+	// Then hope again increase in room2 and finally gets fearful in room 3. 
 	@Test
 	public void test_Inescexample1() throws IOException {
 	
@@ -147,6 +155,7 @@ public void test_roomsfortraces() throws IOException {
 			 
      }
 	
+	// no hope but fear in room1, then hope either in room2 or room3 and finally gets distress in room8 (final room).
 	@Test
 	public void test_Inescexample2() throws IOException {
 	
@@ -160,6 +169,7 @@ public void test_roomsfortraces() throws IOException {
 			 
      }
 
+	// whenever hope increases, fear decreases
 	@Test
 	public void test_Inescexample3() throws IOException {
 	
@@ -171,21 +181,26 @@ public void test_roomsfortraces() throws IOException {
 
      }
 
+	//There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3 
+
 	@Test
 	public void test_Inescexample4() throws IOException {
 	
 
 		LTL<XState> ex4=ltlAnd(
 				ltlAnd(
-						always(in(room1).implies(ltlAnd(PXQueryEDSL.nF(),in(room1))))
-						,always(in(room2).implies(ltlAnd(PXQueryEDSL.nF(), in(room2)))))
-						, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.nF(), in(room3)))));
+						always(in(room1).implies(ltlAnd(PXQueryEDSL.nH(),in(room1))))
+						,always(in(room2).implies(ltlAnd(PXQueryEDSL.nH(), in(room2)))))
+						, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.H(), in(room3)))));
 		
 			assertEquals(true, XStateTrace.satisfy(ex4, list_trace));
 			System.out.println(">>> ex4: " + XStateTrace.satisfy(ex4,list_trace)) ;
 
      }
 
+
+	// there is at least one trace in which throughout the whole level, distress should never be experienced
+	// until it reaches the goal with satisfaction.
 	@Test
 	public void test_Inescexample5() throws IOException {
 	
@@ -199,6 +214,7 @@ public void test_roomsfortraces() throws IOException {
 
      }
 	
+	// there is an execution in which fear should be increasing for at least 3 time stamp exactly at time 4.
 
 	@Test
 	public void test_Inescexample6() throws IOException {
@@ -213,6 +229,8 @@ public void test_roomsfortraces() throws IOException {
 		
 		
 	}
+	
+	//  distress spikes 2 times back to back 
 	@Test
 	public void test_Inescexample9() throws IOException {
 	
