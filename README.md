@@ -183,9 +183,9 @@ trace1.enrichTrace("joy");
   ```Java
 	LTL<XState> hopereq=ltlAnd(
 				ltlAnd(
-						always(in(room1).implies(ltlAnd(PXQueryEDSL.nH(),in(room1))))
-						,always(in(room2).implies(ltlAnd(PXQueryEDSL.nH(), in(room2)))))
-						, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.nH(), in(room3)))));
+				always(in(room1).implies(ltlAnd(PXQueryEDSL.nH(),in(room1))))
+				,always(in(room2).implies(ltlAnd(PXQueryEDSL.nH(), in(room2)))))				
+				, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.nH(), in(room3)))));
   ```
   
  * example2- There is at least one trace in which fear should start increasing exactly at time 4 and for duration of at least 3 time stamps.
