@@ -177,8 +177,8 @@ trace1.enrichTrace("joy");
 
   f2 is **unsatisfiable** on the suite if no trace in the suite gives SAT on f2, and at least one trace in the suite gives UNSAT.
 
-* Performing some example requirments for emotion based PX testing. 
-example1- There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3 
+##Performing some example requirments for emotion based PX testing. 
+* example1- There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3 
 
   ```Java
 LTL<XState> hopereq=ltlAnd(
@@ -187,7 +187,8 @@ LTL<XState> hopereq=ltlAnd(
 						,always(in(room2).implies(ltlAnd(PXQueryEDSL.nH(), in(room2)))))
 						, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.nH(), in(room3)))));
   ```
-  example2- There is at least one trace in which fear should start increasing exactly at time 4 and for duration of at least 3 time stamps.
+  
+ * example2- There is at least one trace in which fear should start increasing exactly at time 4 and for duration of at least 3 time stamps.
 
   ```Java  
   LTL<XState> temporalreq= until_within(now(S->true),
