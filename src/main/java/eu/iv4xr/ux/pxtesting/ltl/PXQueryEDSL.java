@@ -1,6 +1,7 @@
 package eu.iv4xr.ux.pxtesting.ltl;
 
 import eu.iv4xr.framework.extensions.ltl.LTL;
+import eu.iv4xr.framework.extensions.ltl.UntilF;
 import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
 import eu.iv4xr.ux.pxtestingPipeline.LRState;
 
@@ -59,6 +60,37 @@ public class PXQueryEDSL {
 		//LTL<State> g = until_atLeast(phi,until_atMost(phi,psi,delta),lowerbound) ;
 		LTL<State> g = ltlAnd( until_atLeast(phi,psi,lowerbound), until_atMost(phi,psi,upperbound)) ;
 		return g ;
+	}
+	
+	/**
+	 * An optimized (faster) implementation of {@link #until_atMost(LTL, LTL, int)}.
+	 */
+	public static <State> LTL<State> untilx_atMost(
+			LTL<State> phi, 
+			LTL<State> psi,
+			int bound) {
+		return new UntilF(phi,psi,null,bound) ;
+	}
+
+	/**
+	 * An optimized (faster) implementation of {@link #until_atLeast(LTL, LTL, int)}.
+	 */
+	public static <State> LTL<State> untilx_atLeast(
+			LTL<State> phi, 
+			LTL<State> psi,
+			int bound) {
+		return new UntilF(phi,psi,bound,null) ;
+	}
+	
+	/**
+	 * An optimized (faster) implementation of {@link #until_within(LTL, LTL, int, int)}.
+	 */
+	public static <State> LTL<State> untilx_within(
+			LTL<State> phi, 
+			LTL<State> psi,
+			int lowerbound,
+			int upperbound) {
+		return new UntilF(phi,psi,lowerbound,upperbound) ;
 	}
 	
 	static <State> LTL<State> removeNotNot(LTL<State> phi) {

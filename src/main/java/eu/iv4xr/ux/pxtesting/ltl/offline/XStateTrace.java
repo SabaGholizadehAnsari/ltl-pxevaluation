@@ -2,6 +2,8 @@ package eu.iv4xr.ux.pxtesting.ltl.offline;
 
 import java.io.IOException;
 import java.util.* ;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
@@ -10,7 +12,7 @@ import nl.uu.cs.aplib.utils.CSVUtility;
 import nl.uu.cs.aplib.utils.Pair;
 
 /**
- * Represente a sequence/trace of states read from a CSV-file. Such a file is
+ * Represent a sequence/trace of states read from a CSV-file. Such a file is
  * assumed represent an execution trace of an agent, where each row describes
  * the agent state at a particular moment. The first row of the file specifies
  * the column-names, which corresponds to the names of the properties/variables
@@ -29,8 +31,8 @@ import nl.uu.cs.aplib.utils.Pair;
  */
 public class XStateTrace {
 	
-	String id ;
-	List<XState> trace = new LinkedList<>() ;
+	public String id ;
+	public List<XState> trace = new LinkedList<>() ;
 	
 	@Override
 	public String toString() {
@@ -71,7 +73,7 @@ public class XStateTrace {
 	 * now and its value in the previous state. Maybe "first-derivative" is a better
 	 * name :)
 	 */
-	void calculateDiffs() {
+	public void calculateDiffs() {
 		XState previous = null ;
 		for (int k=0; k < trace.size(); k++) {
 			XState st = trace.get(k) ;
@@ -91,6 +93,7 @@ public class XStateTrace {
 	
 	/**
 	 * Fill in the history-tracking Be careful ... this uses quite some space.
+	 * The method will also call {@link #calculateDiffs()}.
 	 */
 	void addHistory(String ... vars) {
 		Map<String,List<Pair<Vec3,Float>>> history = new HashMap<>() ;
@@ -117,6 +120,32 @@ public class XStateTrace {
 	public void enrichTrace(String ... varsToEnhanceWithHistory) {
 		calculateDiffs() ;
 		addHistory(varsToEnhanceWithHistory) ;
+	}
+	
+	/**
+	 * Enriching every state in a trace with history (so, using the method 
+	 * {@link #enrichTrace(String...)}) is pretty expensive (in memory use and
+	 * time). The following method allows you to do custom enrichment with
+	 * an aggregating function.
+	 * 
+	 * <p>The method creates a new derived variable varName. The value of this
+	 * variable at the i-th entry in the trace is calculated as accumulator(previous-value, current-state).
+	 * For the first entry in the trace, the startValue is used as the previous-value.
+	 * 
+	 * Notice that the calculation uses previous-value, and hence it behaves as 
+	 * aggregation.
+	 * 
+	 * <p>Enriching using this method is fast and space-efficient, though you will
+	 * have to specify the aggregate function to use.
+	 */
+	public void enrichCustom(String varName, Float startValue, BiFunction<Float,XState,Float> accumulator) {
+		
+		Float value = startValue ;
+		
+		for(XState state : this.trace) {
+			value = accumulator.apply(value, state) ;
+			state.values.put(varName, value) ;
+		}
 	}
 	
 	private static int getColumIndex(String name, String[] colNames) {

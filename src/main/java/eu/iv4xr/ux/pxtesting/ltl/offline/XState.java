@@ -116,6 +116,10 @@ public class XState {
 				.collect(Collectors.toList()) ;
 	}
 	
+	/**
+	 * Returns the maximum value of vname over the history of that property as
+	 * stored in this state.
+	 */
 	public Float max(String vname) {
 		var z = history.get(vname) ;
 		if (z == null || z.size() == 0) 
