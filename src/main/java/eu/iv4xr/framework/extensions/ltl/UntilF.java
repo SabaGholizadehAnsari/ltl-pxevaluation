@@ -8,9 +8,9 @@ import eu.iv4xr.framework.extensions.ltl.LTL.Until;
  * 
  * <ul>
  * <li>If both are null, then the meaning is the same as the standard p until q;
- * <li>else, if L is null the property is p until[<=U] q. So, q must be established in
+ * <li>else, if L is null the property is p until[&le;U] q. So, q must be established in
  * at most U-steps. Until then, p must be maintained.
- * <li>Else, if U is null, the property is p until[>=L] q. So, q must be established no 
+ * <li>Else, if U is null, the property is p until[&ge;L] q. So, q must be established no 
  * sooner than L-steps. Until then, p must be maintained.
  * <li>Else the property is p until[L..U] q. So, q must be established no sooner than
  * L-steps and no later than U-steps. If L and U are the same, then q must be established

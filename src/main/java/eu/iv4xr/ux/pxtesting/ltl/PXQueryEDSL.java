@@ -3,6 +3,7 @@ package eu.iv4xr.ux.pxtesting.ltl;
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import eu.iv4xr.framework.extensions.ltl.UntilF;
 import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
+import eu.iv4xr.ux.pxtesting.ltl.offline.XStateTrace;
 import eu.iv4xr.ux.pxtestingPipeline.LRState;
 
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
@@ -10,6 +11,10 @@ import static eu.iv4xr.framework.extensions.ltl.LTL2Buchi.* ;
 
 import java.util.*;
 
+/**
+ * Extending Aplib's LTL DSL, see {@link eu.iv4xr.framework.extensions.ltl.LTL}, with more constructs to query/evaluate
+ * traces. Some constructs require enriched trace; see {@link XStateTrace}.
+ */
 public class PXQueryEDSL {
 	
 	/*

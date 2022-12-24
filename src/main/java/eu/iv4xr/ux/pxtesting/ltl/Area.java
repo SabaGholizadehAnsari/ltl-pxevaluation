@@ -126,9 +126,12 @@ public abstract class Area {
 		
 		/**
 		 * A y coordinate (altitude) such that 
-		 *   (1) y = origin.y + k*voxelSize, for some integer k.
-		 *   (2) y <= bottom.y
-		 *   (3) y + voxelSize > bottom.y
+		 * 
+		 * <ol>
+		 *   <li> y = origin.y + k*voxelSize, for some integer k.
+		 *   <li> y &le; bottom.y
+		 *   <li> y + voxelSize > bottom.y
+		 * </ol> 
 		 * 
 		 * In other words, it is the closest altitude to bottom.y, which is a multiple of
 		 * voxelsize, counting with respect to the world-origin.
