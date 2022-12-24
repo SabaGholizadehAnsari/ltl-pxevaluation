@@ -177,8 +177,8 @@ trace1.enrichTrace("joy");
 
   f2 is **unsatisfiable** on the suite if no trace in the suite gives SAT on f2, and at least one trace in the suite gives UNSAT.
 
-## Examples of some requirments for emotion-PX testing. 
-* example1- There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3 
+## Examples of some requirments for emotion-PX testing.
+* example1- There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3
 
   ```Java
 	LTL<XState> hopereq=ltlAnd(
@@ -187,18 +187,21 @@ trace1.enrichTrace("joy");
 				,always(in(room2).implies(ltlAnd(PXQueryEDSL.nH(), in(room2)))))				
 				, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.nH(), in(room3)))));
   ```
-  
+
  * example2- There is at least one trace in which fear should start increasing exactly at time 4 and for duration of at least 3 time stamps.
 
   ```Java  
   LTL<XState> temporalreq= until_within(now(S->true),until_atLeast(F(),nF(),3),4,4);
- 
+
   ```
-  
+
   more examples can be found in Test_ListofXStateTrace file.
   To use the DSL you need to place your csv-trace file in ltl-pxevaluation/src/test/data/.
-  
+
 ### Relevant examples with the game MiniDungeon: [see here](./occ-example.md)
+
+### Javadocs: [see here](https://iv4xr-project.github.io/javadocs/ltl-pxevaluation/javadocs/index.html)
+
 ## License
 
 Copyright (c) 2021, Utrecht University.
