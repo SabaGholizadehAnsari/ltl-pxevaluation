@@ -3,7 +3,6 @@ package eu.iv4xr.ux.pxtesting.ltl;
 import org.junit.jupiter.api.Test;
 
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
-import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
 
 import static org.junit.jupiter.api.Assertions.*;
 
