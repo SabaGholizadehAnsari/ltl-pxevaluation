@@ -79,6 +79,8 @@ Suppose S is a list of locations (instances of `Vec3`), below we obtain C: the v
 var C = A3.covered(S)
 float c = 100f * A3.coveredPortion(S)
 ```
+
+
 ## Offline processing
 
 Imagine an agent that is doing some work. We collect data from the agent in the form of a trace file that records sampled states of the agent. The file is in csv-format.
@@ -139,8 +141,10 @@ trace1.enrichTrace("joy");
   * There are special getters for OCC-properties: "hope", "joy", "satisfaction", "fear", "distress", and "satisfaction". E.g. `S.joy()` gets the value of "joy" in the state S, and `S.dJoy()` gets the value of the first-derivative of joy in S.
 
   ```Java
-  LTL<XState> f3 = eventually(S -> S.dJoy() > 0) ;
+  LTL<XState> f3 = eventually(S -> S.dJoy != null && S.dJoy() > 0) ;
   ```
+
+  We can also write this as: `eventually(J_())`.
 
   * Eventually, the agent's joy increases while in the area A1:
 
@@ -177,22 +181,34 @@ trace1.enrichTrace("joy");
 
   f2 is **unsatisfiable** on the suite if no trace in the suite gives SAT on f2, and at least one trace in the suite gives UNSAT.
 
+
+## Specifying properties with time constraints
+
+  * Until-property with an absolute-time constraint.  There are variants of the `until` and `eventually` where we can specify a time interval where the future assertion is expected to happen. The example below requires an increase in joy to occur in the future, namely in a time in the interval [100 ... 110]. The time is given here as abosolute time.
+
+  ```Java
+  LTL<XState> f5 = eventually_within(J(),100,110)
+  ```
+
+  Similarly we also have `until_within(φ,	Ψ,t0,t1)`.
+
+  * Properties with a relative-time constraint: use `eventually_rwithin(φ,t0,t1)` or `until_rwithin()φ,	Ψ,t0,t1)`.
+
+
+
 ## Examples of some requirments for emotion-PX testing.
 * example1- There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3
 
   ```Java
 	LTL<XState> hopereq=ltlAnd(
-				ltlAnd(
-				always(in(room1).implies(ltlAnd(PXQueryEDSL.nH(),in(room1))))
-				,always(in(room2).implies(ltlAnd(PXQueryEDSL.nH(), in(room2)))))				
-				, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.nH(), in(room3)))));
+      always(now(in(room1).or(in(room2))).implies(nH())),
+      eventually(in(room3).and(H_()))) ;
   ```
 
  * example2- There is at least one trace in which fear should start increasing exactly at time 4 and for duration of at least 3 time stamps.
 
   ```Java  
-  LTL<XState> temporalreq= until_within(now(S->true),until_atLeast(F(),nF(),3),4,4);
-
+  LTL<XState> temporalreq= eventually_within(until_atLeast(F(),nF(),3),4,4);
   ```
 
   more examples can be found in Test_ListofXStateTrace file.

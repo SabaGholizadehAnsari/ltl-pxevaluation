@@ -3,7 +3,7 @@ package eu.iv4xr.framework.extensions.ltl;
 import eu.iv4xr.framework.extensions.ltl.LTL.Until;
 
 /**
- * Representing a bounded-version of the until-operator. So, p untilF q has 
+ * Representing a discrete time bounded-version of the until-operator. So, p untilF q has 
  * a lowerbound L and upperbound U. 
  * 
  * <ul>
