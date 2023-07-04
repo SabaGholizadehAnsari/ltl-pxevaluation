@@ -52,7 +52,7 @@ public class SeqTerm {
 	 * Construct a positive seq-term P with a time-bound, expressed as a lower and an upper
 	 * bound. One of these can be null. The given time bound is interpreted as relative time. 
 	 */
-	public static SeqTerm present_rwithin(Predicate<XState> P, Float lbound, Float ubound) {
+	public static SeqTerm occur_rwithin(Predicate<XState> P, Float lbound, Float ubound) {
 		if (lbound == null && ubound == null)
 			throw new IllegalArgumentException() ;
 		var term = new SeqTerm(P) ;
