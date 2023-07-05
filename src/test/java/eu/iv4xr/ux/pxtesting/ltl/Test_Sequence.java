@@ -105,5 +105,43 @@ public class Test_Sequence {
 						occur_rwithin(F_(),null,30f)))) ;
 				
 	}
+	
+	@Test
+	public void test_sequence_with_absolute_timeconstraints() {	// seq with absolute-time constraints
+	
+		var tr = genHopeFearTrace(data_("hope",0,0,0, 1, 0, 0,2,0,0),
+	                              data_("fear",0,0,0,-1,-1,-1,1,0,0)) ;
+
+		assertEquals(SATVerdict.SAT,  
+			tr.satisfy(sequence(30f,60f,occur(H_()),occur(F_())))) ;
+		
+		assertEquals(SATVerdict.UNSAT,  
+			tr.satisfy(sequence(35f,60f,occur(H_()),occur(F_())))) ;
+			
+		assertEquals(SATVerdict.UNSAT,  
+			tr.satisfy(sequence(30f,55f,occur(H_()),occur(F_())))) ;
+			
+		assertEquals(SATVerdict.SAT,  
+			tr.satisfy(sequence(30f,60f,absent(F_()),occur(H_()),occur(F_())))) ;
+		
+		assertEquals(SATVerdict.UNSAT,  
+				tr.satisfy(sequence(35f,60f,absent(H_()),occur(H_()),occur(F_())))) ;
+			
+		assertEquals(SATVerdict.UNSAT,  
+				tr.satisfy(sequence(30f,55f,absent(F_()),occur(H_()),occur(F_())))) ;
+			
+		assertEquals(SATVerdict.SAT,  
+			tr.satisfy(sequence(null,60f,occur(H_()),absent(H_()),occur(F_())))) ;
+		
+		assertEquals(SATVerdict.UNSAT,  
+				tr.satisfy(sequence(null,55f,occur(H_()),absent(H_()),occur(F_())))) ;
+				
+		assertEquals(SATVerdict.SAT,  
+			tr.satisfy(sequence(null,60f,occur(H_()),occur(F_()),absent(H_())))) ;
+
+		assertEquals(SATVerdict.UNSAT,  
+				tr.satisfy(sequence(null,55f,occur(H_()),occur(F_()),absent(H_())))) ;
+
+	}
 
 }

@@ -277,11 +277,14 @@ public class PXQueryEDSL {
 		    		}
 		    		else if (g.absoluteTime) {
 		    			// g has an absolute-time time-bound
-		    			ltl = until_within(f__,ltl,f.lowerTimeBound,f.upperTimeBound) ;
+		    			//System.out.println(">> translating to abs-time until, " 
+		    			//		+ f.lowerTimeBound
+		    			//		+ ", " + f.upperTimeBound) ;
+		    			ltl = until_within(f__,ltl,g.lowerTimeBound,g.upperTimeBound) ;
 		    		}
 		    		else {
 		    			// g has a relative-time time-bound
-		    			ltl = until_rwithin(f__,ltl,f.lowerTimeBound,f.upperTimeBound) ;
+		    			ltl = until_rwithin(f__,ltl,g.lowerTimeBound,g.upperTimeBound) ;
 		    		}	    			
 		    	}
 		    }
@@ -289,6 +292,7 @@ public class PXQueryEDSL {
 		    	// f is a positive formula
 		    	if (n==phis.size()-1) {
 		    		// f is the last formula
+		    		//System.out.println(">>> last formula is positive") ;
 		    		ltl = f__.treeClone() ;
 		    	}
 		    	else {
@@ -307,11 +311,11 @@ public class PXQueryEDSL {
 		    			}
 		    			else if (g.absoluteTime) {
 		    				// g has an absolute-time time-bound
-		    				ltl = ltlAnd(f__, next(eventually_within(ltl,f.lowerTimeBound,f.upperTimeBound))) ;
+		    				ltl = ltlAnd(f__, next(eventually_within(ltl,g.lowerTimeBound,g.upperTimeBound))) ;
 		    			}
 		    			else {
 		    				// g has a relative-time time-bound
-		    				ltl = ltlAnd(f__,eventually_rwithin(ltl,f.lowerTimeBound,f.upperTimeBound)) ;
+		    				ltl = ltlAnd(f__,eventually_rwithin(ltl,g.lowerTimeBound,g.upperTimeBound)) ;
 		    			}
 		    				
 		    		}	
@@ -319,8 +323,10 @@ public class PXQueryEDSL {
 		    }	
 		}
 		SeqTerm f0 = phis.get(0) ;
-		if (! f0.positive)
+		if (! f0.positive) {
+			//System.out.println(">>> first formula is negative") ;
 			return ltl ;
+		}
 		else if (f0.hasNoTimeBound()) {
 			return eventually(ltl) ;
 		}
