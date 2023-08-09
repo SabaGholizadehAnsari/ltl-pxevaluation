@@ -20,12 +20,12 @@ import static eu.iv4xr.ux.pxtesting.ltl.offline.Benchmark_TraceEnrichment.genTra
 
 public class Benchmark_DiscreteTimedUntil {
 	
-	LTL<XState> f1 = until_within(
+	LTL<XState> f1 = until_withinD(
 			now(S -> S.val("hp") >= 5 && S.val("hp") <= 9),
 			now(S -> S.val("hp") <= 0),
 			5,500) ;
 	
-	LTL<XState> f2 = untilx_within(
+	LTL<XState> f2 = until_withinDX(
 			now(S -> S.val("hp") >= 5 && S.val("hp") <= 9),
 			now(S -> S.val("hp") <= 0),
 			5,500) ;

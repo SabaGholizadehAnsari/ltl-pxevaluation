@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 import  java.nio.file.*;
@@ -22,6 +23,7 @@ import eu.iv4xr.framework.extensions.ltl.SATVerdict;
 import eu.iv4xr.ux.pxtesting.ltl.Area ;
 import eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL;
 import static eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL.*;
+import static eu.iv4xr.ux.pxtesting.ltl.SeqTerm.*;
 import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
 
 import eu.iv4xr.framework.spatial.Vec3;
@@ -50,49 +52,43 @@ public class Test_ListofXStateTrace {
 
 	
 	//loading all trace files. 
-@BeforeAll
-public static void loadtraces() throws IOException {
-
-	XStateTrace.use_xyzt_naming();
-	XStateTrace.posyName = "z" ;
-	XStateTrace.poszName = "y" ;
-	DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(datadir + File.separator+ "NWave-the-flag_MAMRF_f0_z24_51")) ;
-	for (Path path : stream) {
-		if (!Files.isDirectory(path)) {
-			String fname = path.getFileName().toString();
-			if (! fname.toLowerCase().endsWith(".csv")) continue ;
-			XStateTrace trace = XStateTrace.readFromCSV(datadir + File.separator+ "NWave-the-flag_MAMRF_f0_z24_51" + File.separator + fname) ;
-			trace.enrichTrace( "fear","hope");
-			list_trace.add(trace);
+	@BeforeAll
+	public static void loadtraces() throws IOException {
+	
+		XStateTrace.use_xyzt_naming();
+		XStateTrace.posyName = "z" ;
+		XStateTrace.poszName = "y" ;
+		DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(datadir + File.separator+ "NWave-the-flag_MAMRF_f0_z24_51")) ;
+		for (Path path : stream) {
+			if (!Files.isDirectory(path)) {
+				String fname = path.getFileName().toString();
+				if (! fname.toLowerCase().endsWith(".csv")) continue ;
+				XStateTrace trace = XStateTrace.readFromCSV(datadir + File.separator+ "NWave-the-flag_MAMRF_f0_z24_51" + File.separator + fname) ;
+				trace.enrichTrace( "fear","hope");
+				list_trace.add(trace);
+			}
 		}
+		room1 = rect(new Vec3(41,0,51), new Vec3(48,0,58)) ;
+		room2 = rect(new Vec3(21,0,49), new Vec3(29,0,58)) ;
+		room3 = rect(new Vec3(1,0,51), new Vec3(9,0,59)) ;
+		room8=  rect(new Vec3(41,0,9), new Vec3(49,0,18)) ;
 	}
+
+	//test with simpler commands
 	
-	 room1 = rect(new Vec3(41,0,51), new Vec3(48,0,58)) ;
-	 room2 = rect(new Vec3(21,0,49), new Vec3(29,0,58)) ;
-	 room3 = rect(new Vec3(1,0,51), new Vec3(9,0,59)) ;
-	 room8=  rect(new Vec3(41,0,9), new Vec3(49,0,18)) ;
-	
+	//Is there a case that the agent experiences raising fear in room1 and hope in room2.
+	@Test
+	public void test_roomsfortraces() throws IOException {
+		
+		LTL<XState> g1 = sequence(
+			 occur(F_().and(in(room1))),
+			 occur(H_().and(in(room2)))	
+			) ;	
+		assertEquals(true, XStateTrace.satisfy(g1, list_trace))  ;
+	}
 
 
-}
-
-//test with simpler commands
-// Is there a case that the agent feels fear in room1 and hope in room2.
-
-@Test
-public void test_roomsfortraces() throws IOException {
-	
-	LTL<XState> g1 = PXQueryEDSL.sequence(
-	       ltlAnd(in(room1),PXQueryEDSL.F()),
-	       ltlAnd(in(room2),PXQueryEDSL.H())
-		) ;
-	
-	assertEquals(true, XStateTrace.satisfy(g1, list_trace))  ;
-
-}
-
-//Check hope and fear in a specific corridor.
-
+	//Check raising hope and raising fear in a specific corridor.
 	@Test
 	public void test_greycorridortraces() throws IOException {
 		
@@ -103,12 +99,12 @@ public void test_roomsfortraces() throws IOException {
 		Area C5 = rect(new Vec3(54,0,44), new Vec3(55,0,62)) ;
 		Area greycorridor= C1.union(C2).union(C3).union(C4).union(C5);
 		
-		LTL<XState> t1 =  PXQueryEDSL.sequence(ltlAnd(in(greycorridor),PXQueryEDSL.H()),
-						 ltlAnd(in(greycorridor),PXQueryEDSL.F())) ;
+		LTL<XState> t1 =  sequence(
+				occur(H_().and(in(greycorridor))),
+				occur(F_().and(in(greycorridor)))
+				) ;
 
-		
 		assertEquals(false, XStateTrace.satisfy(t1, list_trace)); 
-
 	}
 	
 	// check FDDnD emotion pattern in a corridor
@@ -129,40 +125,49 @@ public void test_roomsfortraces() throws IOException {
 		LTL<XState> t1 = eventually(S-> bluecorridor.covered(S.history("hope")).size()>0) ;
 		LTL<XState> t2 = eventually(S-> bluecorridor.covered(S.history("fear")).size()>0) ;
 		
-		LTL<XState> t3 =  PXQueryEDSL.sequence(ltlAnd(in(bluecorridor),PXQueryEDSL.F()), 
-						 					   ltlAnd(in(bluecorridor),PXQueryEDSL.D()),
-						 					   ltlAnd(in(bluecorridor),PXQueryEDSL.D()),
-						 					  ltlAnd(in(bluecorridor),PXQueryEDSL.nD())) ; //FDDnD
+		//FDDnD
+		LTL<XState> t3 =  sequence(
+				occur(F_().and(in(bluecorridor))), 
+				occur(D_().and(in(bluecorridor))),
+				occur(D_().and(in(bluecorridor))),
+				occur(D_().and(in(bluecorridor)))) ; 
 		
 		assertEquals(true, XStateTrace.satisfy(t1, list_trace))  ;
 		assertEquals(true, XStateTrace.satisfy(t2, list_trace));
 		assertEquals(true, XStateTrace.satisfy(t3, list_trace)); 
-
 	}
 	
-	//the agent starts in Room1, so this test checks whether the agent feels any hope.
+	// the agent starts in Room1, so this test checks whether the agent feels any hope.
 	// Then hope again increase in room2 and finally gets fearful in room 3. 
 	@Test
 	public void test_Inescexample1() throws IOException {
 	
+		/*
 		LTL<XState> ex1= now((XState S)->S.dHope()!=null&&S.dHope()>0)
 				.until(
 				ltlAnd(now((XState S)->room2.contains(S.pos)&& S.dHope()!=null&&S.dHope()>0),
 				 eventually ((XState S)->room3.contains(S.pos)&& S.dFear()!=null && S.dFear()>0 )));
+		*/
 		
+		LTL<XState> ex1= now(h_())
+				.until(
+				   ltlAnd(now(H_().and(in(room2))),
+				          eventually(F_().and(in(room3))))) ;
 		
 		System.out.println(">>> ex1: " + XStateTrace.satisfy(ex1,list_trace)) ;
 			 
      }
 	
-	// no hope but fear in room1, then hope either in room2 or room3 and finally gets distress in room8 (final room).
+	// no hope but fear in room1, then hope increases either in room2 or room3 and finally 
+    // gets distress in room8 (final room).
 	@Test
 	public void test_Inescexample2() throws IOException {
 	
-		LTL<XState>  ex2= PXQueryEDSL.sequence(now(S-> room1.contains(S.pos)&&  S.dHope() != null && S.dHope() < 0 &&  S.dFear() != null && S.dFear()>0),
-				ltlOr(now((XState S)-> room2.contains(S.pos) && S.dHope() != null && S.dHope() > 0),
-						now((XState S)-> room3.contains(S.pos) && S.dHope() != null && S.dHope() > 0)), 
-				now(S-> room8.contains(S.pos)&&S.dDistress() != null &&S.dDistress()>0));
+		LTL<XState>  ex2= sequence(
+				absent(S-> ! (in(room1).test(S) &&  !h_().test(S) &&  f_().test(S))),
+				occur(H_().and(in(room2).or(in(room3)))),
+				occur(d_().and(in(room8)))
+				);
 	
 		
 		System.out.println(">>> ex2: " + XStateTrace.satisfy(ex2,list_trace)) ;
@@ -173,44 +178,40 @@ public void test_roomsfortraces() throws IOException {
 	@Test
 	public void test_Inescexample3() throws IOException {
 	
-		LTL<XState> ex3= always((XState S)->  S.dHope() != null && S.dHope() > 0)
-				 .implies(now((XState S)->S.dFear() != null && S.dFear()<0));
-		
-			assertEquals(true, XStateTrace.satisfy(ex3, list_trace))  ;
-			System.out.println(">>> ex3: " + XStateTrace.satisfy(ex3,list_trace)) ;
+		LTL<XState> ex3= always(H().implies(now((XState S) -> S.dFear() != null && S.dFear()<0))) ;
+		assertEquals(true, XStateTrace.satisfy(ex3, list_trace))  ;
+		System.out.println(">>> ex3: " + XStateTrace.satisfy(ex3,list_trace)) ;
 
      }
 
 	//There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3 
-
 	@Test
 	public void test_Inescexample4() throws IOException {
-	
 
 		LTL<XState> ex4=ltlAnd(
-				ltlAnd(
-						always(in(room1).implies(ltlAnd(PXQueryEDSL.nH(),in(room1))))
-						,always(in(room2).implies(ltlAnd(PXQueryEDSL.nH(), in(room2)))))
-						, eventually(in(room3)).implies(eventually(ltlAnd(PXQueryEDSL.H(), in(room3)))));
-		
-			assertEquals(true, XStateTrace.satisfy(ex4, list_trace));
-			System.out.println(">>> ex4: " + XStateTrace.satisfy(ex4,list_trace)) ;
+				always(now(in(room1).or(in(room2))).implies(nH())),
+				eventually(in(room3).and(H_()))
+				) ;
+				
+		assertEquals(true, XStateTrace.satisfy(ex4, list_trace));
+		System.out.println(">>> ex4: " + XStateTrace.satisfy(ex4,list_trace)) ;
 
      }
 
 
-	// there is at least one trace in which throughout the whole level, distress should never be experienced
-	// until it reaches the goal with satisfaction.
+	// there is at least one trace in which throughout the whole level, distress should never increase
+	// until it reaches a state where satisfaction increases.
 	@Test
 	public void test_Inescexample5() throws IOException {
 	
 
-		LTL<XState> t1=ltlAnd(always(PXQueryEDSL.nD()),eventually(PXQueryEDSL.S()));
+		LTL<XState> t1=ltlAnd(always(nD()),eventually(S()));
 		
-		LTL<XState> ex5= PXQueryEDSL.sequence(always(PXQueryEDSL.nD()),PXQueryEDSL.S());
+		LTL<XState> ex5= sequence(absent(D_()), occur(S_()));
+		
 		assertEquals(true, XStateTrace.satisfy(t1, list_trace))  ;
 		assertEquals(true, XStateTrace.satisfy(ex5, list_trace))  ;
-			System.out.println(">>> ex5: " + XStateTrace.satisfy(ex5,list_trace)) ;
+		System.out.println(">>> ex5: " + XStateTrace.satisfy(ex5,list_trace)) ;
 
      }
 	
@@ -219,8 +220,8 @@ public void test_roomsfortraces() throws IOException {
 	@Test
 	public void test_Inescexample6() throws IOException {
 	
-		LTL<XState> boundedex= until_within(now(S->true),
-										until_atLeast(F(),nF(),3),4,4);
+		LTL<XState> boundedex= until_withinD(now(S->true),
+										     until_atLeastD(F(),nF(),3),4,4);
 				
 		//LTL<XState> ex7_2= ltlOr(eventually(S-> room8.contains(S.pos)&& S.satisfaction()>0), eventually(S-> S.dDisappointment()!=null && S.dDisappointment()>0));
 		
@@ -236,15 +237,21 @@ public void test_roomsfortraces() throws IOException {
 	
 		//LTL<XState> ex9= eventually((XState S)-> S.dDistress()!=null && S.dDistress()>0).next((XState S)->S.dDistress()!=null && S.dDistress()<0); 
 		//alternative
-		LTL<XState> ex9=PXQueryEDSL.sequence(eventually(PXQueryEDSL.D()),next((PXQueryEDSL.D())));
+		LTL<XState> ex9= sequence(occur(D_()), occur(D_()));
 			assertEquals(true, XStateTrace.satisfy(ex9, list_trace))  ;
 			System.out.println(">>> ex9: " + XStateTrace.satisfy(ex9,list_trace)) ;
 
      }
 
+	static Predicate<XState> in(Area A) {
+		return S -> A.contains(S.pos) ;
+	}
+		
+	/*
 	static Now<XState> in(Area A) {
 		return now(S -> A.contains(S.pos)) ;
 	}
+	*/
 
 }
 	
