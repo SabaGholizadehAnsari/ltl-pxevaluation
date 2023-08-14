@@ -132,13 +132,13 @@ public class XState {
 	}
 	
 	
-	static final String HEALTH = "health" ;
-	static final String HOPE = "hope" ;
-	static final String JOY = "joy" ;
-	static final String SATISFACTION = "satisfaction" ;
-	static final String FEAR = "fear" ;
-	static final String DISTRESS = "distress" ;
-	static final String DISAPPOINTMENT = "disappointment" ;
+	static public final String HEALTH = "health" ;
+	static public final String HOPE = "hope" ;
+	static public final String JOY = "joy" ;
+	static public final String SATISFACTION = "satisfaction" ;
+	static public final String FEAR = "fear" ;
+	static public final String DISTRESS = "distress" ;
+	static public final String DISAPPOINTMENT = "disappointment" ;
 	
 	/**
 	 * Return this.values.get("health").

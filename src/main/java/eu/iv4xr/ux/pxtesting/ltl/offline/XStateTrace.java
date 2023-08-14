@@ -75,8 +75,8 @@ public class XStateTrace {
 	 */
 	public void calculateDiffs() {
 		XState previous = null ;
-		for (int k=0; k < trace.size(); k++) {
-			XState st = trace.get(k) ;
+		//int k = 0 ;
+		for (XState st : trace) {
 			if (previous != null) {
 				//ystem.out.println(">>> " + previous + "-->" + st) ;
 				for (String vname : st.values.keySet()) {
@@ -88,6 +88,7 @@ public class XStateTrace {
 				}
 			}
 			previous = st ;
+			//k++ ;
 		}
 	}
 	
@@ -115,11 +116,23 @@ public class XStateTrace {
 	}
 	
 	/**
-	 * Enrich this trace with derived information.
+	 * Enrich this trace with derived information, namely the diff-info and
+	 * location history info.
 	 */
 	public void enrichTrace(String ... varsToEnhanceWithHistory) {
+		enrichTrace(true,varsToEnhanceWithHistory) ;
+	}
+	
+	
+	/**
+	 * Enrich this trace with derived information. Diff-info will be added.
+	 * If the withLocationsHistory flag is true, then position-history is also
+	 * added for the specified vars.
+	 */
+	public void enrichTrace(Boolean withLocationsHistory, String ... varsToEnhance) {
 		calculateDiffs() ;
-		addHistory(varsToEnhanceWithHistory) ;
+		if (withLocationsHistory) 
+			addHistory(varsToEnhance) ;
 	}
 	
 	/**

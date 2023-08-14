@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.ltl.offline;
+package eu.iv4xr.ux.pxtesting.ltl.benchmark;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,25 +13,11 @@ import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 
 import eu.iv4xr.framework.spatial.Vec3;
 import eu.iv4xr.ux.pxtesting.ltl.Area;
+import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
+import eu.iv4xr.ux.pxtesting.ltl.offline.XStateTrace;
 import nl.uu.cs.aplib.utils.Pair;
 
 public class Benchmark_TraceEnrichment {
-	
-	// generate a trace of the given length
-	static public XStateTrace genTrace(int length) {
-		
-		XStateTrace trace = new XStateTrace() ;
-		for (int k=0; k<length; k++) {
-			Float hp = (float) (k % 10) ;
-			XState state = new XState(
-					new Vec3(k,0,0),
-					k,
-					new Pair<String,Float>("hp",hp)
-					) ;
-			trace.trace.add(state) ;
-		}
-		return trace ;
-	}
 	
 	Float max(List<Pair<Vec3,Float>> history) {
 		if (history.size() == 0) return null ;
@@ -69,7 +55,7 @@ public class Benchmark_TraceEnrichment {
 	void benchNaive(int k) {
 		System.out.println("Bench NAIVE") ;
 		System.out.println("=== k=" + k) ;
-		XStateTrace trace = genTrace(k) ;
+		XStateTrace trace = BenchmarkCommon.genTrace(k) ;
 
 		long t0 = System.currentTimeMillis() ;
 		trace.enrichTrace("hp");
@@ -91,7 +77,7 @@ public class Benchmark_TraceEnrichment {
 	void benchOptimized(int k) {
 		System.out.println("Bench IMPROVED") ;
 		System.out.println("=== k=" + k) ;
-		XStateTrace trace = genTrace(k) ;
+		XStateTrace trace = BenchmarkCommon.genTrace(k) ;
 
 		long t0 = System.currentTimeMillis() ;
 		trace.enrichCustom("hpmaxA1", 

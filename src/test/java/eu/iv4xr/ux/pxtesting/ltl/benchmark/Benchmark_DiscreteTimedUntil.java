@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.ltl.offline;
+package eu.iv4xr.ux.pxtesting.ltl.benchmark;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,9 +14,9 @@ import static eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL.* ;
 
 import eu.iv4xr.framework.spatial.Vec3;
 import eu.iv4xr.ux.pxtesting.ltl.Area;
+import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
+import eu.iv4xr.ux.pxtesting.ltl.offline.XStateTrace;
 import nl.uu.cs.aplib.utils.Pair;
-
-import static eu.iv4xr.ux.pxtesting.ltl.offline.Benchmark_TraceEnrichment.genTrace;
 
 public class Benchmark_DiscreteTimedUntil {
 	
@@ -33,7 +33,7 @@ public class Benchmark_DiscreteTimedUntil {
 	void bench(int k) {
 		System.out.println("Bench") ;
 		System.out.println("=== k=" + k) ;
-		XStateTrace trace = genTrace(k) ;
+		XStateTrace trace = BenchmarkCommon.genTrace(k) ;
 
 		long t0 = System.currentTimeMillis() ;
 		trace.enrichTrace("hp");
