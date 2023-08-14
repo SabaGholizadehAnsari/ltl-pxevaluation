@@ -55,7 +55,7 @@ public class BM {
 	
 	
 	
-	@Disabled
+	//@Disabled
 	@Test
 	public void bm1() throws IOException {
 		boolean enhanceWithPositionHistory = false ;
@@ -103,7 +103,7 @@ public class BM {
 		CSVUtility.exportToCSVfile(',', data, "bm1.csv");
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	public void bm2() throws IOException {
 		
