@@ -2,10 +2,12 @@ package eu.iv4xr.ux.pxtesting.ltl.benchmark;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
 import eu.iv4xr.framework.spatial.Vec3;
+import eu.iv4xr.ux.pxtesting.ltl.Area;
 import eu.iv4xr.ux.pxtesting.ltl.SeqTerm;
 import static eu.iv4xr.ux.pxtesting.ltl.SeqTerm.* ;
 import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
@@ -75,6 +77,7 @@ public class BenchmarkCommon {
 	public static LTL<XState> generateSeqFormulas(
 			Float lowerTimeBound,
 			Float upperTimeBound,
+			boolean withCoverageFormula,
 			int N) {
 		
 		List<SeqTerm> seqInner = new LinkedList<>() ;
@@ -82,13 +85,22 @@ public class BenchmarkCommon {
 		for (int k=0; k<N; k++) {
 			if (k % 2 == 0) {
 				// even k
-				seqInner.add(occur(H_())) ;
+				if (withCoverageFormula) {
+					Area A1 = Area.rect(new Vec3(10,0,0), new Vec3(50,1,1)) ;
+					Predicate<XState> q = (XState S) -> A1.coveredPortion(S.history(XState.HOPE)) >= 0.1f ;
+					seqInner.add(occur(q)) ;
+				}
+				else {
+					seqInner.add(occur(H_())) ;
+				}
+				
 			}
 			else {
 				// odd k
 				seqInner.add(absent(F_())) ;
 			}
 		}
+		
 		
 		if (lowerTimeBound == null) {
 			return sequence(seqInner) ;

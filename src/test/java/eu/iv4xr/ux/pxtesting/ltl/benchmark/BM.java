@@ -55,7 +55,7 @@ public class BM {
 	
 	
 	
-	//@Disabled
+	@Disabled
 	@Test
 	public void bm1() throws IOException {
 		boolean enhanceWithPositionHistory = false ;
@@ -103,7 +103,7 @@ public class BM {
 		CSVUtility.exportToCSVfile(',', data, "bm1.csv");
 	}
 	
-	//@Disabled
+	@Disabled
 	@Test
 	public void bm2() throws IOException {
 		
@@ -152,6 +152,8 @@ public class BM {
 		CSVUtility.exportToCSVfile(',', data, "bm2.csv");
 	}
 	
+	
+	@Disabled
 	@Test
 	public void bm3() throws IOException {
 		
@@ -170,8 +172,8 @@ public class BM {
 		
 		for (int k = 1 ; k <= maxFormulaLength ; k++ ) {
 			
-			LTL<XState> g1 = BenchmarkCommon.generateSeqFormulas(null, null,k) ;
-			LTL<XState> g2 = BenchmarkCommon.generateSeqFormulas(0f, 5000f,k) ;
+			LTL<XState> g1 = BenchmarkCommon.generateSeqFormulas(null, null,false, k) ;
+			LTL<XState> g2 = BenchmarkCommon.generateSeqFormulas(0f, 5000f,false, k) ;
 						
 			long evalTime_g1 = 0 ;
 			long evalTime_g2 = 0 ;
@@ -203,5 +205,55 @@ public class BM {
 		CSVUtility.exportToCSVfile(',', data, "bm3.csv");
 	}
 	
+	@Test
+	public void bm4() throws IOException {
+		
+		boolean enhanceWithPositionHistory = true ;
+		int repeatRuns = 10 ;
+		int maxFormulaLength = 20 ;
+		int traceLength = 10000 ;
+		
+		List<String[]> data = new LinkedList<>() ;
+		String[] row = { "seq-length", "g3-time", "g4-time" } ;
+		data.add(row) ;
+		
+		var trace = BenchmarkCommon.genTrace(traceLength) ;
+		// dummy evaluation just to enhance the trace:
+	    BenchmarkCommon.bench("dummy", true,enhanceWithPositionHistory, false, trace,f2) ;
+		
+		for (int k = 1 ; k <= maxFormulaLength ; k++ ) {
+			
+			LTL<XState> g1 = BenchmarkCommon.generateSeqFormulas(null, null,true, k) ;
+			LTL<XState> g2 = BenchmarkCommon.generateSeqFormulas(0f, 5000f,true, k) ;
+						
+			long evalTime_g1 = 0 ;
+			long evalTime_g2 = 0 ;
+			
+			Object[] rg1 = {} ;
+			Object[] rg2 = {} ;
+			
+			// check f1 and f2 on trace, repeated N-times:
+			for (int i = 0; i<repeatRuns; i++) {
+			    rg1 = BenchmarkCommon.bench("g1", false,false, false, trace, g1) ;
+			    rg2 = BenchmarkCommon.bench("g2", false,false, false, trace, g2) ;
+			    evalTime_g1 += (Long) rg1[3] ;
+			    evalTime_g2 += (Long) rg2[3] ;
+			}
+			
+			evalTime_g1 = (long) ((float) evalTime_g1 / (float) repeatRuns) ;
+			evalTime_g2 = (long) ((float) evalTime_g2 / (float) repeatRuns) ;
+			
+			System.out.println("== Bench n=" + k) ;
+			System.out.println("  g3:" + rg1[1] + ", time=" + evalTime_g1) ;
+			System.out.println("  g4:" + rg2[1] + ", time=" + evalTime_g2) ;
+			
+			String[] rowk = { "" + k ,
+					         "" + evalTime_g1, 
+					         "" + evalTime_g2 } ;
+			data.add(rowk) ;
+		}	
+		
+		CSVUtility.exportToCSVfile(',', data, "bm4.csv");
+	}
 
 }
