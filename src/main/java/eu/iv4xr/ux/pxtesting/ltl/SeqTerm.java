@@ -1,6 +1,7 @@
 package eu.iv4xr.ux.pxtesting.ltl;
 
 import java.util.function.Predicate;
+import static java.util.function.Predicate.*;
 
 import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
 
@@ -71,5 +72,7 @@ public class SeqTerm {
 		term.positive = false ;
 		return term ;
 	}
-	
+	public static SeqTerm sustain(Predicate<XState> P) {;
+		return absent(not(P));
+	}
 }

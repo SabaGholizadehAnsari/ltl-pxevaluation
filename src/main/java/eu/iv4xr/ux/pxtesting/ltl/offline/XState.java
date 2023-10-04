@@ -131,15 +131,21 @@ public class XState {
 		return m ;
 	}
 	
-	
-	static final String HEALTH = "health" ;
+	static final String HEALTH = "remainedhealth" ;
 	static final String HOPE = "hope" ;
 	static final String JOY = "joy" ;
 	static final String SATISFACTION = "satisfaction" ;
 	static final String FEAR = "fear" ;
 	static final String DISTRESS = "distress" ;
 	static final String DISAPPOINTMENT = "disappointment" ;
-	
+	static final String FINISH = "Finish" ;
+	static final String BUTTON0 = "b0" ;
+	static final String BUTTON1 = "bRStart";
+	static final String DISTFLAG ="minSqDistFlag";
+	static final String DFN2 ="dFN2";
+	static final String DISTENEMY ="minSqDistEnemy";
+	static final String JOYGH ="joy-GH";
+
 	/**
 	 * Return this.values.get("health").
 	 */
@@ -154,7 +160,8 @@ public class XState {
 	 * Return this.values.get("joy").
 	 */
 	public Float joy() { return values.get(JOY) ; }
-	
+	public Float joyGH() { return values.get(JOYGH) ; }
+
 	/**
 	 * Return this.values.get("satisfaction").
 	 */
@@ -174,7 +181,33 @@ public class XState {
 	 * Return this.values.get("disappointment").
 	 */
 	public Float disappointment() { return values.get(DISAPPOINTMENT) ; }
-	
+	/**
+	 * Return this.values.get("Finish").
+	 */
+	public Float Finish() { return values.get(FINISH) ; }
+	/**
+	 * Return this.values.get("health").
+	 */
+	public Float B0() { return values.get(BUTTON0) ; }
+
+	/**
+	 * Return this.values.get("health").
+	 */
+	public Float B1() { return values.get(BUTTON1) ; }
+
+	/**
+	 * Return this.values.get("minSqDistFlag").
+	 */
+	public Float minSqDistFlag() { return values.get(DISTFLAG) ; }
+	/**
+	 * Return this.values.get("dfn2").
+	 */
+	public Float dFN2() { return values.get(DFN2) ; }
+	/**
+	 * Return this.values.get("minSqDistFlag").
+	 */
+	public Float minSqDistEnemy() { return values.get(DISTENEMY) ; }
+
 	/**
 	 * Return this.diff.get("health").
 	 */
@@ -189,6 +222,8 @@ public class XState {
 	 * Return this.diff.get("joy").
 	 */
 	public Float dJoy() { return diff.get(JOY) ; }
+	public Float dJoyGH() { return diff.get(JOYGH) ; }
+
 	public Float dSatisfaction() { return diff.get(SATISFACTION) ; }
 	
 	/**

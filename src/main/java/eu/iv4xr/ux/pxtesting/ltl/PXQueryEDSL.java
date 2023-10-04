@@ -403,7 +403,9 @@ public class PXQueryEDSL {
 	public static Predicate<XState> J_() {
 		return (XState S) -> S.dJoy() != null && S.dJoy()>0 ;
 	}
-
+	public static Predicate<XState> JGH_() {
+		return (XState S) -> S.dJoyGH() != null && S.dJoyGH()>0 ;
+	}
 	/**
 	 * True is on a state with raising distress.
 	 */
@@ -424,7 +426,12 @@ public class PXQueryEDSL {
 	public static Predicate<XState> P_() {
 		return (XState S) -> S.disappointment() != null && S.disappointment()>0 ;
 	}
-	
+	/**
+	 * True is on a state with raising health.
+	 */
+	public static Predicate<XState> HP_() {
+		return (XState S) -> S.health() != null && S.health()>0 ;
+	}
 	
 	public static LTL<XState> H() {
 		return now(H_()) ;
@@ -447,7 +454,9 @@ public class PXQueryEDSL {
 	public static LTL<XState> P() {
 		return now(P_()) ;
 	}
-	
+	public static LTL<XState> HP() {
+		return now(HP_()) ;
+	}	
 	public static LTL<XState> nH() {
 		return ltlNot(H()) ;
 	}

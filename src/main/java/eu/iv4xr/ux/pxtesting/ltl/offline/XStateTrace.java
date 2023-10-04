@@ -233,6 +233,20 @@ public class XStateTrace {
 		}
 		return false ;
 	}
+	/**
+	 * Check if there exists at least c traces that satisfy the given
+	 * LTL property.
+	 */
+	public static boolean satisfyC(LTL ltl, List<XStateTrace> traces, int c) {
+		
+		int counter=0;
+		for (var tr : traces) {
+			SATVerdict verdict = tr.satisfy(ltl) ;
+			if (verdict == SATVerdict.SAT) counter++ ;
+		}
+		if(counter>=c) return true;
+		return false ;
+	}
 	
 	/**
 	 * Check if the LTL property is valid on all the given traces.
@@ -262,5 +276,7 @@ public class XStateTrace {
 		}
 		return hasUNSAT ;
 	}
-	
+
+
+
 }
