@@ -66,7 +66,8 @@ public class Test_ZenopuslevelSpecifications {
 				if (! fname.toLowerCase().endsWith(".csv")) continue ;
 				XStateTrace trace = XStateTrace.readFromCSV(datadir + File.separator+ "Zenopus" + File.separator + fname) ;
 				//trace.enrichTrace( "fear","hope", "joy","disappointment", "Finish","remainedhealth","b0","b1","minSqDistFlag", "dFN2","minSqDistEnemy");
-				trace.enrichTrace( "fear", "joy","remainedhealth","b0","b1","minSqDistFlag","joy-GH","dFN2");
+				//trace.enrichTrace( "fear", "joy","remainedhealth","b0","b1","minSqDistFlag","joy-GH","dFN2");
+				trace.calculateDiffs();
 				list_trace.add(trace);
 			}
 			

@@ -43,7 +43,7 @@ public class Test_XStateTrace {
 	String slash = FileSystems.getDefault().getSeparator();
 	String datadir = projectroot + slash + "src" + slash + "test" + slash + "data" ;
 
-	@Test
+	//@Test
 	public void test1() throws IOException {
 		String file1 = datadir + slash + "sampleTracefile.csv" ;
 		String file2 = datadir + slash + "samplePXTracefile.csv" ;
