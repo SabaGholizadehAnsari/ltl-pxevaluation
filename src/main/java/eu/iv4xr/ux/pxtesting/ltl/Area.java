@@ -26,7 +26,6 @@ import nl.uu.cs.aplib.utils.Pair;
  * NOTE: the implementation of Areas physically creates the set of voxels; so
  * they are NOT suitable for representing huge areas.
  * 
- * @author Wish
  *
  */
 public abstract class Area {
@@ -99,7 +98,6 @@ public abstract class Area {
 	 * of size w*h will have exactly w*h*1 voxels, assuming voxel-size of 1.
 	 * Voxel-size is stored in the field {@link Area#voxelSize}.
 	 * 
-	 * @author Wish
 	 */
 	public static class RectangleArea extends Area {
 		

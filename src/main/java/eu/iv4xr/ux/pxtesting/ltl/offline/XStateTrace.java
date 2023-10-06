@@ -26,8 +26,7 @@ import nl.uu.cs.aplib.utils.Pair;
  * <p> Each row will be parsed to an instance of {@link XState}, and the whole
  * CSV-file will be parse to a sequence of XStates.
  * 
- * @author Saba, Wish
- *
+ * 
  */
 public class XStateTrace {
 	

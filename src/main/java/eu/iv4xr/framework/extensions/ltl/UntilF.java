@@ -16,7 +16,6 @@ import eu.iv4xr.framework.extensions.ltl.LTL.Until;
  * L-steps and no later than U-steps. If L and U are the same, then q must be established
  * in exactly L-steps. Until then, p must be maintained.
  * </ul>
- * @author Wish
  *
  * @param <State>
  */

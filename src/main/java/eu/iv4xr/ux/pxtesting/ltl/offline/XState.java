@@ -28,7 +28,6 @@ import nl.uu.cs.aplib.utils.Pair;
  * and {@link #history}. The enrichment is done from {@link XStateTrace#enrichTrace(String...)}.
  * 
  * 
- * @author Saba, Wish
  *
  */
 public class XState {
