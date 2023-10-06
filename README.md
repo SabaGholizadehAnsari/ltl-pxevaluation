@@ -15,6 +15,10 @@ DSL feature:
    * Sequential-patterns
    * Aggregation
 
+
+## How to Run
+to test the reproducability of the results, you can run "Test_ZenopuslevelSpecifications" test file, located at src/test/java/ux.pxtesting.ltl.offline
+
 ## Area and area coverage
 
 An "area" represents some 3D-space. It can be a "surface", but generally it is a space.
@@ -214,14 +218,3 @@ trace1.enrichTrace("joy");
   more examples can be found in Test_ListofXStateTrace file.
   To use the DSL you need to place your csv-trace file in ltl-pxevaluation/src/test/data/.
 
-### Relevant examples with the game MiniDungeon: [see here](./occ-example.md)
-
-### Javadocs: [see here](https://iv4xr-project.github.io/javadocs/ltl-pxevaluation/javadocs/index.html)
-
-## License
-
-Copyright (c) 2021, Utrecht University.
-
-`ltl-pxevaluation` is an open source software. It can be used and distributed under the [LGPL version 3 license](./lgpl-3.0.md).
-
-### Relevant papers
