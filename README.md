@@ -1,8 +1,8 @@
 ## EmoSTL
 
-A library providing a query-DSL/APIs to query trace-files. Imagine an agent that is doing some work. We collect data from the agent in the form of a trace file that records the sampled states of the agent. The file is in csv-format. We possibly have multiple trac file, coming from multiple runs of the agent (or runs of multiple agents).
+A library providing EmoSTL DSL to formally specify PX requirements. Imagine an agent who is doing some activity in the game environment. We collect data from the agent in the form of a trace file that records the sampled states of the agent. The file is in csv-format. We possibly have multiple trac file, coming from multiple runs of the agent (or runs of multiple agents).
 
-The DSL allows an extended-LTL-like formulas to be written to query the trace files, if some of them (or all of them) would satisfy some properties.
+The DSL allows PX requirements to be written as specifications and with the  trace files, the satisfaction of those specifications can be verified.
 
 In the context of Player Experience (PX) testing, these queries can express some emotional experience specifications that can be specified by time and area. This will be explained by some examples later on.
 
@@ -17,8 +17,9 @@ DSL feature:
 
 
 ## How to Run
-to test the reproducability of the results, you can run "Test_ZenopuslevelSpecifications" test file, located at src/test/java/ux.pxtesting.ltl.offline
+to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file, located at src/test/java/ux.pxtesting.ltl.offline
 
+Needless to say that the project has a few external 
 ## Area and area coverage
 
 An "area" represents some 3D-space. It can be a "surface", but generally it is a space.
