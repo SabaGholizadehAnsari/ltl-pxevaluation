@@ -27,9 +27,7 @@ To build just do `mvn compile` from the project's root. This will automatically 
 
 Run the testclass `Test_ZenopuslevelSpecifications`. It verifies all set specifications over the given game trace files:
 
-```java
-mvn test -Dtest=" ux.pxtesting.ltl.offline.Test_ZenopuslevelSpecifications"
-```
+
 
 
 ## General information about the Library
