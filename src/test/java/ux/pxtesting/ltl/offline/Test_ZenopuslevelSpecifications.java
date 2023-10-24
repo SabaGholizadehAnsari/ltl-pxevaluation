@@ -95,7 +95,7 @@ public class Test_ZenopuslevelSpecifications {
 		System.out.println( "In room F2 and near enemy is : "+XStateTrace.satisfy(sequence(occur(in(roomF2).and((XState S)-> S.minSqDistEnemy()!=null && S.minSqDistEnemy()<=1))), list_trace));
 		System.out.println( "have possibility of being in room generally near enemy is : "+XStateTrace.satisfy(sequence(occur((XState S)-> S.minSqDistEnemy()!=null && S.minSqDistEnemy()<=1)), list_trace));
 
-
+		
 		//assertEquals(true, XStateTrace.satisfy(spec, list_trace))  ;
 	}
 
@@ -105,7 +105,7 @@ public class Test_ZenopuslevelSpecifications {
 
 		LTL<XState> spec = sequence(0f,7000f,occur((H_()))) ;	
 		assertEquals(true, XStateTrace.valid(spec, list_trace))  ;
-		
+		System.out.println("Specifcation1 size: "+ formulaSize(spec));
 	}
 
 	//Specification 2: Every player would feel anticipation on how to go through the fire in area G without dying.
@@ -124,7 +124,8 @@ public class Test_ZenopuslevelSpecifications {
 					return ok ;	
 				})
 				, list_trace))  ;
-		
+		System.out.println("Specifcation2 size: "+ formulaSize(spec));
+
 		//assertEquals(true, XStateTrace.satisfy(sequence(occur(in(roomG))), list_trace));
 		assertEquals(true, XStateTrace.valid(spec, list_trace))  ;
 	}
@@ -134,13 +135,15 @@ public class Test_ZenopuslevelSpecifications {
 	public void test_Specification3() throws IOException {
 
 		LTL<XState> spec = sequence(occur(in(roomG))).implies(sequence(occur(in(roomG).and(F_()))));	
+		System.out.println("Specifcation3 size: "+ formulaSize(spec));
 		assertEquals(true, XStateTrace.valid(spec, list_trace))  ;
 	}
 	//Specification 4:  There is at least a game-play in which a player would feel hopeful to complete the game as soon as they reach F2.
 	@Test
 	public void test_Specification4() throws IOException {
 
-		LTL<XState> spec = sequence(occur(in(roomF2)), occur_rwithin(H_().and(in(roomF2)),0f,2000f)) ;	
+		LTL<XState> spec = sequence(occur(in(roomF2)), occur_rwithin(H_().and(in(roomF2)),0f,2000f)) ;
+		System.out.println("Specifcation4 size: "+ formulaSize(spec));
 		assertEquals(true, XStateTrace.satisfy(spec, list_trace))  ;
 	}
 
@@ -150,7 +153,8 @@ public class Test_ZenopuslevelSpecifications {
 		
 		LTL<XState> spec = ltlAnd(sequence(occur(in(roomP))),sequence(occur(in(roomG))),
 									sequence(occur(in(roomF1))),sequence(occur(in(roomF2))), sequence(occur(P_()))) ;	
-		
+		System.out.println("Specifcation5 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.unsat(spec, list_trace))  ;
 	}
 	//Specification 6:  When every player begins playing the game, they should be to accomplish something right away like pressing a button (b0 or b1).
@@ -158,6 +162,8 @@ public class Test_ZenopuslevelSpecifications {
 		public void test_Specification6() throws IOException {
 			
 			LTL<XState> spec = sequence(occur_rwithin((XState S)-> (S.B0()!=null && S.B0()==1) ||(S.B1()!=null && S.B1()==1),0f,30000f),occur_rwithin(J_(),0f,50000f));
+			System.out.println("Specifcation6 size: "+ formulaSize(spec));
+
 			assertEquals(true, XStateTrace.satisfy(spec, list_trace))  ;
 
 		}
@@ -166,6 +172,8 @@ public class Test_ZenopuslevelSpecifications {
 		public void test_Specification7() throws IOException {
 			
 			LTL<XState> spec = ltlAnd(sequence(occur(JGH_())),sequence(occur(F_())));
+			System.out.println("Specifcation7 size: "+ formulaSize(spec));
+
 			assertEquals(true, XStateTrace.valid(spec, list_trace));
 			
 		}
@@ -177,7 +185,9 @@ public class Test_ZenopuslevelSpecifications {
 		//LTL<XState> spec = always(in(roomP).and((XState S) -> S.hope()!=null && S.hope()>0));
 		 LTL<XState> spec = sequence(occur(in(roomG)),sustain(in(roomG).and((XState S) -> S.hope()!=null && S.hope()>0)),
 				 			 occur(not(in(roomG))));
-		assertEquals(true, XStateTrace.satisfy(spec, list_trace))  ;
+			System.out.println("Specifcation8 size: "+ formulaSize(spec));
+
+		 assertEquals(true, XStateTrace.satisfy(spec, list_trace))  ;
 	}
 
 	//Specification 9:  In every gameplay, the user should face a small challenge in area F1 to feel scared before they face the horde of zombies in F2.
@@ -186,6 +196,8 @@ public class Test_ZenopuslevelSpecifications {
 			
 			 LTL<XState> spec = sequence(occur(in(roomF2))).implies(sequence(occur(in(roomF1).and(F_()))));
 			//assertEquals(true, XStateTrace.satisfy(spec, list_trace))  ;
+				System.out.println("Specifcation9 size: "+ formulaSize(spec));
+
 			assertEquals(true, XStateTrace.valid(spec, list_trace));
 
 		}
@@ -195,6 +207,8 @@ public class Test_ZenopuslevelSpecifications {
 		public void test_Specification10() throws IOException {
 			
 			LTL<XState> spec = sequence(occur((XState S)->Vec3.distSq(S.pos,new Vec3(159,3,108))<=100 && S.dFN2()==0),occur_rwithin(F_(),0f,10000f));
+			System.out.println("Specifcation10 size: "+ formulaSize(spec));
+
 			assertEquals(true, XStateTrace.satisfy(spec, list_trace));
 
 		}
@@ -202,7 +216,9 @@ public class Test_ZenopuslevelSpecifications {
 		@Test
 		public void test_Specification11() throws IOException {
 			
-			LTL<XState> spec = sequence(occur(in(roomG)), absent(in(roomG).and(P_())));	
+			LTL<XState> spec = sequence(occur(in(roomG)), absent(in(roomG).and(P_())));
+			System.out.println("Specifcation11 size: "+ formulaSize(spec));
+
 			assertEquals(true, XStateTrace.satisfy(spec, list_trace))  ;
 		}
 
@@ -213,6 +229,8 @@ public class Test_ZenopuslevelSpecifications {
 			LTL<XState> spec1 = sequence(occur(in(roomG)),occur(in(roomP).and((XState S)-> S.minSqDistFlag()!=null && S.minSqDistFlag()<=1).and(HP_())));
 			LTL<XState> spec2= sequence(occur(in(roomP).and(JGH_())));
 			int at_least=1;
+			System.out.println("Specifcation13 size: "+ formulaSize(ltlAnd(spec1,spec2)));
+
 			assertEquals(true, XStateTrace.satisfyC(ltlAnd(spec1,spec2), list_trace, at_least));
 		}	
 	//Specification 14: Some people may feel fear/ scared when encountering the zombies in room F1.
@@ -222,6 +240,8 @@ public class Test_ZenopuslevelSpecifications {
 		LTL<XState> spec = sequence(occur(in(roomF1).and((XState S)-> S.minSqDistEnemy()!=null && S.minSqDistEnemy()<=20 )),occur(F_().and(in(roomF1))));
 		
 		int at_least= 2;
+		System.out.println("Specifcation14 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.satisfyC(spec, list_trace,at_least));
 	}
 	
@@ -234,6 +254,8 @@ public class Test_ZenopuslevelSpecifications {
 		
 		LTL<XState> spec= always(now(in(roomF2).and((XState S)-> S.minSqDistEnemy()!=null && S.minSqDistEnemy()<=1)).implies(sequence(occur(F_().and(in(roomF2))))));		
 		// I can not use occure bc it returns seqterm not predicate and always only accepts predicate
+		System.out.println("Specifcation16 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.valid(spec, list_trace));
 	}
 	
@@ -243,6 +265,8 @@ public class Test_ZenopuslevelSpecifications {
 	public void test_Specification18() throws IOException {
 		
 		LTL<XState> spec= sequence(occur(in(CorGf1).and((XState S)->S.dFN2()==0))).implies(sequence(occur(H_().and((XState S)->S.dFN2()==0))));
+		System.out.println("Specifcation18 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.valid(spec, list_trace));
 	}
 		
@@ -252,6 +276,8 @@ public class Test_ZenopuslevelSpecifications {
 		
 		LTL<XState> spec = sequence(occur(J_().and(in(roomF2))),occur(in(roomF2).and((XState S) -> S.health()!=null && S.health()>0 && S.Finish()!=null && S.Finish()==1)));
 		int at_least=4;
+		System.out.println("Specifcation19 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.satisfyC(spec, list_trace,at_least));
 	}
 	//Specification 20: Some players feel nervous when traversing the maze in room G.
@@ -260,6 +286,8 @@ public class Test_ZenopuslevelSpecifications {
 		
 		LTL<XState> spec = sequence(occur(F_().and(in(roomG))));
 		int at_least=7;
+		System.out.println("Specifcation20 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.satisfyC(spec, list_trace,at_least));
 	}
 	
@@ -269,6 +297,8 @@ public class Test_ZenopuslevelSpecifications {
 	
 		LTL<XState> spec = sequence(occur(in(roomF1))).implies(sequence(absent(in(roomF1)),occur(in(roomF1)),occur(in(roomF1).and(F_()))));
 		int at_least=5;
+		System.out.println("Specifcation22 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.valid(spec, list_trace));
 	}
 	
@@ -278,6 +308,8 @@ public class Test_ZenopuslevelSpecifications {
 	
 		LTL<XState> spec = sequence(occur(in(roomF2).and(J_())));
 		//int at_least=7;
+		System.out.println("Specifcation24 size: "+ formulaSize(spec));
+
 		assertEquals(true, XStateTrace.satisfy(spec, list_trace));
 	}
 	
@@ -286,7 +318,7 @@ public class Test_ZenopuslevelSpecifications {
 	public void test_Specification25() throws IOException {
 	
 		LTL<XState> spec = sequence(occur(in(roomP).and((XState S)-> S.hope()<=0.0001)));
-		
+		System.out.println("Specifcation25 size: "+ formulaSize(spec));
 		 //assertEquals(true, XStateTrace.satisfy(spec, list_trace));
 		assertEquals(true, XStateTrace.satisfy(spec, list_trace));
 	}
