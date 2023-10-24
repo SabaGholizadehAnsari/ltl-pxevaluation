@@ -16,12 +16,12 @@ DSL feature:
    * Aggregation
 
 
-## How to Run
+## Replication instructions
 to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file, located at src/test/java/ux.pxtesting.ltl.offline
 
-Needless to say that the project has a few external 
-## Area and area coverage
 
+## General information about the Library
+### Area and area coverage
 An "area" represents some 3D-space. It can be a "surface", but generally it is a space.
 
 Suppose an agent works in the area, and we want to now how much of the area is covered by the agent. Suppose the information we have is a sequence of samples of its locations while working in the area. The sequence is finite. Unfortunately, we cannot simply use the number of different locations in the sequence as a measure of coverage, because there are infinitely many locations contained in any non-empty area.
