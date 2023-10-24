@@ -28,10 +28,10 @@ To build just do `mvn compile` from the project's root. This will automatically 
 Run the testclass `Test_ZenopuslevelSpecifications`. It verifies all set specifications over the given game trace files:
 
 ```java
-mvn test -Dtest="ux.pxtesting.ltl.offline.Test_ZenopuslevelSpecifications"
+mvn test -Dtest="ux.pxtesting.ltl.offline.Test_ZenopuslevelSpecifications" -Dmaven.test.failure.ignore=true
 
 ```
-
+In the results, you need to see 21 tests are run and only two tests failed which shows our specification successfully detected an issue in the game design. The rest (19 tests) are passed successfully.
 ## General information about the Library
 ### Area and area coverage
 An "area" represents some 3D-space. It can be a "surface", but generally it is a space.
