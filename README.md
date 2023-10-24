@@ -15,7 +15,7 @@ DSL feature:
    * Sequential-patterns
    * Aggregation
 ### Note
-There are few classes in the same namespace as an external package because we need to overwrite certain behaviors. 
+There are few classes in the same namespace as an external package ("eu.iv4xr.framework.extensions.ltl" in the Aplib external package) because we need to overwrite certain behaviors.
 
 ## Replication instructions
 to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file usgin ecliple, located at src/test/java/ux.pxtesting.ltl.offline
