@@ -1,10 +1,10 @@
-## ltl-pxevaluation
+## EmoSTL
 
-A library providing a query-DSL/APIs to query trace-files. Imagine an agent that is doing some work. We collect data from the agent in the form of a trace file that records sampled states of the agent. The file is in csv-format. We possibly have multiple trac file, coming from multiple runs of the agent (or runs of multiple agents).
+A library providing EmoSTL DSL to formally specify PX requirements. Imagine an agent who is doing some activity in the game environment. We collect data from the agent in the form of a trace file that records the sampled states of the agent. The file is in csv-format. We possibly have multiple trac file, coming from multiple runs of the agent (or runs of multiple agents).
 
-The DSL allows an extended-LTL-like formulas to be written to query the trace files, if some of them (or all of them) would satisfy some properties.
+The DSL allows PX requirements to be written as specifications and with the  trace files, the satisfaction of those specifications can be verified.
 
-In the context of Player Experience (PX) testing, these queries can express some emotional experience requirements that can be specified by time and area. This will be explained by some examples later on.
+In the context of Player Experience (PX) testing, these queries can express some emotional experience specifications that can be specified by time and area. This will be explained by some examples later on.
 
 DSL feature:
 
@@ -17,8 +17,9 @@ DSL feature:
 
 
 ## How to Run
-to test the reproducability of the results, you can run "Test_ZenopuslevelSpecifications" test file, located at src/test/java/ux.pxtesting.ltl.offline
+to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file, located at src/test/java/ux.pxtesting.ltl.offline
 
+Needless to say that the project has a few external 
 ## Area and area coverage
 
 An "area" represents some 3D-space. It can be a "surface", but generally it is a space.
@@ -41,14 +42,6 @@ Now, given a finite set S of locations, representing sampled locations of our ag
 **NOTE:** The current implementation explicitly constructs V(A) when A is created. It is therefore not suitable for representing vast areas.
 
 #### Specifying areas
-
-   * Imports:
-
-   ```Java
-   import  eu.iv4xr.ux.pxtesting.ltl.Area ;
-   import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
-   import eu.iv4xr.framework.spatial.Vec3;
-   ```
 
    * A _rectangle_ is specified by its bottom and top corner. The bottom corner is
    the one with lowest (x,y,z) position, and the top corner is its opposite.
@@ -106,11 +99,6 @@ Imagine that the agent has had multiple runs. So, we have collected a bunch of t
 We can read these trace-files to be exposed to LTL-queries. Internally, it will then converted into an instance of `XStateTrace`, which is essentially a sequence of `XState`.
 
 ```Java
-import eu.iv4xr.framework.extensions.ltl.LTL;
-import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
-import eu.iv4xr.framework.extensions.ltl.SATVerdict;
-import eu.iv4xr.ux.pxtesting.ltl.Area ;
-import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
 
 XStateTrace trace1 = XStateTrace.readFromCSV(file1) ;
 XStateTrace trace2 = XStateTrace.readFromCSV(file2) ;
@@ -132,73 +120,6 @@ For example, the following will enrich `trace1` with first-derivatives, and hist
 ```Java
 trace1.enrichTrace("joy");
 ```
-
-#### LTL-query
-
-  * f1: the property health is always positive. f2: eventually health drops.
-
-  ```Java
-  LTL<XState> f1 = always(S -> S.val("health") > 0) ;
-  LTL<XState> f2 = eventually(S -> S.diff("health") != null && S.diff("health") < 0) ;
-  ```
-
-  * There are special getters for OCC-properties: "hope", "joy", "satisfaction", "fear", "distress", and "satisfaction". E.g. `S.joy()` gets the value of "joy" in the state S, and `S.dJoy()` gets the value of the first-derivative of joy in S.
-
-  ```Java
-  LTL<XState> f3 = eventually(S -> S.dJoy != null && S.dJoy() > 0) ;
-  ```
-
-  We can also write this as: `eventually(J_())`.
-
-  * Eventually, the agent's joy increases while in the area A1:
-
-  ```Java
-  LTL<XState> f4 = eventually(S ->
-                     S.dJoy() != null
-                     &&  S.dJoy() > 0.5
-                     && A1.contains(S.pos))
-  ```
-
-  * The moments when the agent is joyful while in the area A1 will eventually cover most of the area:
-
-  ```Java
-  LTL<XState> f5 = eventually(S ->
-        A1.coveredPortion(S.history("joy", v-> v>=0.3)) >= 0.5) ;
-  ```
-
-  * Performing the queries on a single XStateTrace. This returns `SATVerdict.SAT` is the queried property is satisfied by the trace, and else `SATVerdict.UNSAT`.
-
-  ```Java
-  trace.satisfy(f1)
-  ```
-
-  * Querying multiple XStateTraces. This returns boolean yes/no. Let suite be a list of XStateTraces.
-
-  ```Java
-  XStateTraces.satisfy(f2,suite)
-  XStateTraces.valid(f2,suite)
-  XStateTraces.unsat(f2,suite)
-  ```
-  The suite **satisfies** f2 is at least one trace satisfies it.
-
-  f2 is **valid** on the suite if no trace gives UNSAT on f2, and if there is at least one trace in the suite that gives SAT.
-
-  f2 is **unsatisfiable** on the suite if no trace in the suite gives SAT on f2, and at least one trace in the suite gives UNSAT.
-
-
-## Specifying properties with time constraints
-
-  * Until-property with an absolute-time constraint.  There are variants of the `until` and `eventually` where we can specify a time interval where the future assertion is expected to happen. The example below requires an increase in joy to occur in the future, namely in a time in the interval [100 ... 110]. The time is given here as abosolute time.
-
-  ```Java
-  LTL<XState> f5 = eventually_within(J(),100,110)
-  ```
-
-  Similarly we also have `until_within(φ,	Ψ,t0,t1)`.
-
-  * Properties with a relative-time constraint: use `eventually_rwithin(φ,t0,t1)` or `until_rwithin()φ,	Ψ,t0,t1)`.
-
-
 
 ## Examples of some requirments for emotion-PX testing.
 * example1- There should be no increase of hope in rooms 1 and 2, that can only happen on rooms 3
