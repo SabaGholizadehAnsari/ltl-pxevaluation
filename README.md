@@ -14,7 +14,8 @@ DSL feature:
    * First-derivative values
    * Sequential-patterns
    * Aggregation
-
+### Note
+There are few classes in the same namespace as an external package because we need to overwrite certain behaviors. 
 
 ## Replication instructions
 to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file usgin ecliple, located at src/test/java/ux.pxtesting.ltl.offline
