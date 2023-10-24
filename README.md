@@ -32,7 +32,7 @@ Run the testclass `Test_ZenopuslevelSpecifications`. It verifies all set specifi
 mvn test -Dtest="ux.pxtesting.ltl.offline.Test_ZenopuslevelSpecifications" -Dmaven.test.failure.ignore=true
 
 ```
-In the results, you need to see that **21 tests** were run and ** 2 tests failed** which shows our specification successfully detected an issue in the game design. The rest (19 tests) were passed successfully.
+In the results, you need to see that **21 tests** were run and **2 tests failed** which shows our specification successfully detected an issue in the game design. The rest (19 tests) were passed successfully.
 
 ## General information about the Library
 ### Area and area coverage
