@@ -1,16 +1,15 @@
-package eu.iv4xr.ux.pxtesting.ltl;
+package ux.pxtesting.ltl;
 
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import eu.iv4xr.framework.extensions.ltl.UntilF;
 import eu.iv4xr.framework.extensions.ltl.UntilWithRelativeTimedBound;
-import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
-import eu.iv4xr.ux.pxtesting.ltl.offline.XStateTrace;
-import eu.iv4xr.ux.pxtestingPipeline.LRState;
+import ux.pxtesting.ltl.offline.XState;
+import ux.pxtesting.ltl.offline.XStateTrace;
+import ux.pxtestingPipeline.LRState;
 
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 import static eu.iv4xr.framework.extensions.ltl.LTL2Buchi.* ;
-
-import static eu.iv4xr.ux.pxtesting.ltl.SeqTerm.* ;
+import static ux.pxtesting.ltl.SeqTerm.*;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -475,6 +474,50 @@ public class PXQueryEDSL {
 	}
 	public static LTL<XState> nP() {
 		return ltlNot(P()) ;
+	}
+	
+	public static int formulaSize(LTL<XState> phi) {
+		if (phi instanceof Now) {
+			return 0 ;
+		}
+		if (phi instanceof Until) {
+			var phi_ = (Until) phi ;
+			return 1 + formulaSize(phi_.phi1) + formulaSize(phi_.phi2) ;
+		}
+		if (phi instanceof WeakUntil) {
+			var phi_ = (WeakUntil) phi ;
+			return 1 + formulaSize(phi_.phi1) + formulaSize(phi_.phi2) ;
+		}
+		if (phi instanceof UntilWithRelativeTimedBound) {
+			var phi_=(UntilWithRelativeTimedBound)phi;
+			return 1+ formulaSize(phi_.phi1)+ formulaSize(phi_.phi2);
+		}
+		if (phi instanceof And) {
+			var phi_ = (And) phi ;
+			int cnt = 1 ;
+			for (var psi : phi_.conjuncts) {
+				cnt += formulaSize(psi) ; 
+			}
+			return cnt ;
+		}
+
+		if (phi instanceof Or) {
+			var phi_ = (Or) phi ;
+			int cnt = 1 ;
+			for (var psi : phi_.disjuncts) {
+				cnt += formulaSize(psi) ; 
+			}
+			return cnt ;
+		}
+		if (phi instanceof Next) {
+			var phi_ = (Next) phi ;
+			return 1+formulaSize(phi_.phi);
+		}
+		if (phi instanceof Not) {
+			var phi_ = (Not) phi ;
+			return 1+formulaSize(phi_.phi);
+		}	
+		throw new IllegalArgumentException() ;
 	}
 
 	// test

@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtestingPipeline;
+package ux.pxtestingPipeline;
 
 import java.util.LinkedList;
 import java.util.List;

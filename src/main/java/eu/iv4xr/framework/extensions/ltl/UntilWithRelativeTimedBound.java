@@ -6,7 +6,7 @@ import java.util.Set;
 
 import eu.iv4xr.framework.extensions.ltl.LTL.Until;
 import eu.iv4xr.framework.extensions.ltl.UntilF.UNTIL_TYPE;
-import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
+import ux.pxtesting.ltl.offline.XState;
 
 /**
  * Until operator with relative time time-bound. The bound is specified in terms of

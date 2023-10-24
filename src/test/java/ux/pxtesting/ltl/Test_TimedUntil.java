@@ -1,13 +1,12 @@
-package eu.iv4xr.ux.pxtesting.ltl;
+package ux.pxtesting.ltl;
 
 import org.junit.jupiter.api.Test;
 
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import static eu.iv4xr.ux.pxtesting.ltl.XStateTraceGenerator.* ;
-import static eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL.* ;
+import static ux.pxtesting.ltl.PXQueryEDSL.*;
+import static ux.pxtesting.ltl.XStateTraceGenerator.*;
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 
 public class Test_TimedUntil {

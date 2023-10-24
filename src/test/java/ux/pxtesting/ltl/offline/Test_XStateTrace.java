@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.ltl.offline;
+package ux.pxtesting.ltl.offline;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,19 +14,21 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import  java.nio.file.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static ux.pxtesting.ltl.Area.*;
+
 import eu.iv4xr.framework.extensions.ltl.BoundedLTL;
 import eu.iv4xr.framework.extensions.ltl.BoundedLTL.*;
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
-import eu.iv4xr.ux.pxtesting.ltl.Area ;
-import eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL;
-import eu.iv4xr.ux.pxtestingPipeline.EmotionCoverage;
-import eu.iv4xr.ux.pxtestingPipeline.LRState;
 import nl.uu.cs.aplib.utils.CSVUtility;
-import eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL.*;
-import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
-
+import ux.pxtesting.ltl.Area;
+import ux.pxtesting.ltl.PXQueryEDSL;
+import ux.pxtesting.ltl.PXQueryEDSL.*;
+import ux.pxtesting.ltl.offline.XState;
+import ux.pxtesting.ltl.offline.XStateTrace;
+import ux.pxtestingPipeline.EmotionCoverage;
+import ux.pxtestingPipeline.LRState;
 import eu.iv4xr.framework.spatial.Vec3;
 
 
