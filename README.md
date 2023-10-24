@@ -17,7 +17,20 @@ DSL feature:
 
 
 ## Replication instructions
-to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file, located at src/test/java/ux.pxtesting.ltl.offline
+to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file usgin ecliple, located at src/test/java/ux.pxtesting.ltl.offline
+location of trace file....
+origiaal speification pdf.file
+-java version at least 11.
+
+EmoSTL is written in Java. It requires Java-11 or higher. The project is Maven-based.
+
+To build just do mvn compile from the project's root. This will automatically download all its dependencies and then compile the project.
+
+Run the testclass `Test_ZenopuslevelSpecifications`. It verifies all set specifications over the given game trace files:
+
+
+mvn test -Dtest=" ux.pxtesting.ltl.offline.Test_ZenopuslevelSpecifications"
+
 
 
 ## General information about the Library
