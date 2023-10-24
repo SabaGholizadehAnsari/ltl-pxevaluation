@@ -15,12 +15,11 @@ DSL feature:
    * Sequential-patterns
    * Aggregation
 ### Note
-There are few classes in the same namespace as an external package ("eu.iv4xr.framework.extensions.ltl" in the Aplib external package) because we need to overwrite certain behaviors.
+There are few classes in the same namespace as an external package ("eu.iv4xr.framework.extensions.ltl" from the Aplib external package) due to the necessity of overriding specific behaviors.
 
 ## Replication instructions
-to replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file usgin ecliple, located at src/test/java/ux.pxtesting.ltl.offline
-location of trace file....
-origiaal speification pdf.file
+To replicate the results, you need to run "Test_ZenopuslevelSpecifications" test file, located at "src/test/java/ux.pxtesting.ltl.offline"
+Trace files are located in "src/test/data/Zenopus/"
 
 EmoSTL is written in Java. It requires Java-11 or higher. The project is Maven-based.
 
@@ -32,7 +31,7 @@ Run the testclass `Test_ZenopuslevelSpecifications`. It verifies all set specifi
 mvn test -Dtest="ux.pxtesting.ltl.offline.Test_ZenopuslevelSpecifications" -Dmaven.test.failure.ignore=true
 
 ```
-In the results, you need to see 21 tests are run and only two tests failed which shows our specification successfully detected an issue in the game design. The rest (19 tests) are passed successfully.
+In the results, you need to see that 21 tests were run and "2 tests failed" which shows our specification successfully detected an issue in the game design. The rest (19 tests) were passed successfully.
 ## General information about the Library
 ### Area and area coverage
 An "area" represents some 3D-space. It can be a "surface", but generally it is a space.
