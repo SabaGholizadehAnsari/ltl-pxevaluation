@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtestingPipeline;
+package ux.pxtestingPipeline;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;

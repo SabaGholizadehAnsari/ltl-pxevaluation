@@ -1,13 +1,14 @@
-package eu.iv4xr.ux.pxtesting.ltl;
+package ux.pxtesting.ltl;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static ux.pxtesting.ltl.Area.*;
 
 import java.util.*;
 
-import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
 import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.utils.Pair;
+import ux.pxtesting.ltl.Area;
 
 
 public class Test_Area {

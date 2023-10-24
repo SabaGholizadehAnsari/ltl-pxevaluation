@@ -1,9 +1,10 @@
-package eu.iv4xr.ux.pxtesting.ltl;
+package ux.pxtesting.ltl;
 
 import java.util.function.Predicate;
-import static java.util.function.Predicate.*;
 
-import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
+import ux.pxtesting.ltl.offline.XState;
+
+import static java.util.function.Predicate.*;
 
 public class SeqTerm {
 	

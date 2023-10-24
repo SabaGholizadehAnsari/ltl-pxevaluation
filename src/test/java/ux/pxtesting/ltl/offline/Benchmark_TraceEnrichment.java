@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.ltl.offline;
+package ux.pxtesting.ltl.offline;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,8 +12,10 @@ import eu.iv4xr.framework.extensions.ltl.SATVerdict;
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 
 import eu.iv4xr.framework.spatial.Vec3;
-import eu.iv4xr.ux.pxtesting.ltl.Area;
 import nl.uu.cs.aplib.utils.Pair;
+import ux.pxtesting.ltl.Area;
+import ux.pxtesting.ltl.offline.XState;
+import ux.pxtesting.ltl.offline.XStateTrace;
 
 public class Benchmark_TraceEnrichment {
 	

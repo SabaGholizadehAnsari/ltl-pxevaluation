@@ -1,8 +1,8 @@
-package eu.iv4xr.ux.pxtesting.ltl;
+package ux.pxtesting.ltl;
 
-import eu.iv4xr.ux.pxtesting.ltl.offline.XState;
-import eu.iv4xr.ux.pxtesting.ltl.offline.XStateTrace;
 import nl.uu.cs.aplib.utils.Pair;
+import ux.pxtesting.ltl.offline.XState;
+import ux.pxtesting.ltl.offline.XStateTrace;
 
 public class XStateTraceGenerator {
 	

@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.ltl.offline;
+package ux.pxtesting.ltl.offline;
 
 import java.util.*;
 import java.util.function.Predicate;

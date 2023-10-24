@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.ltl;
+package ux.pxtesting.ltl;
 
 import java.util.*;
 

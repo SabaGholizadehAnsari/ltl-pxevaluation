@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtestingPipeline;
+package ux.pxtestingPipeline;
 
 import eu.iv4xr.framework.mainConcepts.IEmotion;
 

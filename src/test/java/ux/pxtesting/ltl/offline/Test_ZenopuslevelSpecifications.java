@@ -1,4 +1,4 @@
-package eu.iv4xr.ux.pxtesting.ltl.offline;
+package ux.pxtesting.ltl.offline;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,18 +15,23 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 import  java.nio.file.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static ux.pxtesting.ltl.Area.*;
+import static ux.pxtesting.ltl.PXQueryEDSL.*;
+import static ux.pxtesting.ltl.SeqTerm.*;
+
 import eu.iv4xr.framework.extensions.ltl.BoundedLTL;
 import eu.iv4xr.framework.extensions.ltl.BoundedLTL.*;
 import eu.iv4xr.framework.extensions.ltl.LTL;
 import static eu.iv4xr.framework.extensions.ltl.LTL.* ;
 import eu.iv4xr.framework.extensions.ltl.SATVerdict;
-import eu.iv4xr.ux.pxtesting.ltl.Area ;
-import eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL;
-import static eu.iv4xr.ux.pxtesting.ltl.PXQueryEDSL.*;
-import static eu.iv4xr.ux.pxtesting.ltl.SeqTerm.*;
-import static eu.iv4xr.ux.pxtesting.ltl.Area.* ;
+
 import static java.util.function.Predicate.*;
 import eu.iv4xr.framework.spatial.Vec3;
+import ux.pxtesting.ltl.Area;
+import ux.pxtesting.ltl.PXQueryEDSL;
+import ux.pxtesting.ltl.offline.XState;
+import ux.pxtesting.ltl.offline.XStateTrace;
+
 import org.junit.jupiter.api.BeforeAll;
 
 /* 
@@ -66,7 +71,8 @@ public class Test_ZenopuslevelSpecifications {
 				if (! fname.toLowerCase().endsWith(".csv")) continue ;
 				XStateTrace trace = XStateTrace.readFromCSV(datadir + File.separator+ "Zenopus" + File.separator + fname) ;
 				//trace.enrichTrace( "fear","hope", "joy","disappointment", "Finish","remainedhealth","b0","b1","minSqDistFlag", "dFN2","minSqDistEnemy");
-				trace.enrichTrace( "fear", "joy","remainedhealth","b0","b1","minSqDistFlag","joy-GH","dFN2");
+				//trace.enrichTrace( "fear", "joy","remainedhealth","b0","b1","minSqDistFlag","joy-GH","dFN2");
+				trace.calculateDiffs();
 				list_trace.add(trace);
 			}
 			
