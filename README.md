@@ -33,7 +33,7 @@ mvn test -Dtest="ux.pxtesting.ltl.offline.Test_ZenopuslevelSpecifications" -Dmav
 In the results, you need to see that **21 tests** were run and **2 tests failed** which shows our specification successfully detected an issue in the game design. The rest (19 tests) were passed successfully.
 
 ### Note
-There are few classes in the same namespace as an external package ("eu.iv4xr.framework.extensions.ltl" from the Aplib external package) due to the necessity of overriding specific behaviors. We acknowledged that this package is the creation of a third-party.
+There are few classes in the same namespace as an external package ("eu.iv4xr.framework.extensions.ltl" from the Aplib external package) due to the necessity of overriding specific behaviors. We acknowledged that this external package is an open source library that created by a third-party.
 ## General information about the Library
 ### Area and area coverage
 An "area" represents some 3D-space. It can be a "surface", but generally it is a space.
